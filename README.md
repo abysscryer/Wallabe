@@ -1,9 +1,16 @@
 # Wallabe
 
-dotnet ef migrations add InitialCreate
+Adding a Migration
+> dotnet ef migrations add InitialCreate
 
-dotnet ef migrations remove
+Creating or Updating the Database
+> dotnet ef migrations remove
 
-dotnet ef database update
+Removing a Migration
+> dotnet ef database update
 
-dotnet ef database update LastGoodMigration
+Reverting a Migration
+> dotnet ef database update LastGoodMigration
+
+Generating a SQL Script
+> dotnet ef migrations script
