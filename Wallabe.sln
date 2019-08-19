@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29209.62
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wallabe", "Wallabe\Wallabe.csproj", "{5DB0FDFD-74F6-4DFC-A7A7-E606D47F91F7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5DB0FDFD-74F6-4DFC-A7A7-E606D47F91F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DB0FDFD-74F6-4DFC-A7A7-E606D47F91F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DB0FDFD-74F6-4DFC-A7A7-E606D47F91F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DB0FDFD-74F6-4DFC-A7A7-E606D47F91F7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FE75458E-F35A-4584-97D2-4B8E6C3CE5AF}
+	EndGlobalSection
+EndGlobal
