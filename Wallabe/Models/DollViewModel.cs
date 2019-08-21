@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Wallabe.Domains;
 
 namespace Wallabe.Models
 {
@@ -13,8 +14,13 @@ namespace Wallabe.Models
 
         public int Quantity { get; set; }
 
+        public string ImaagePath { get; set; }
+
         public string CraneId { get; set; }
 
-        public string ImaagePath { get; set; }
+        /// <summary>
+        /// 인형이 속한 크레인의 상태
+        /// </summary>
+        public PlayStatus Status { get; set; }
     }
 }

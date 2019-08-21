@@ -10,6 +10,8 @@ namespace Wallabe.Service
     {
         IEnumerable<DollViewModel> List(int count);
         IEnumerable<DollViewModel> List();
+        IEnumerable<DollViewModel> ListByCraneId(string craneId);
+        IEnumerable<DollViewModel> ListByCraneId(string craneId, int count);
         //Task<IPagedList<DollViewModel>> ListAsync(DollSearchModel searchModel);
         //Task<bool> CreateAsync(DollCreateModel createModel);
         //Task<bool> UpdateAsync(string id, DollUpdateModel updateModel);

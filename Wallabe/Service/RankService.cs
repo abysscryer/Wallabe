@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Wallabe.Data;
+using Wallabe.Domains;
 using Wallabe.Models;
 
 namespace Wallabe.Service
@@ -19,94 +20,87 @@ namespace Wallabe.Service
             _mapper = mapper;
         }
 
-        public IEnumerable<RankViewModel> MonthlyList(int count)
+        public RankViewModel GetByPlayerId(string playerId)
         {
-            // make duration 
+            var item = _context.CraneRecords
+                .Where(rank => rank.PlayerId == playerId)
+                .GroupBy(rank => rank.PlayerId)
+                .Select(filtered => new CraneRecord
+                {
+                    PlayerId = filtered.Key,
+                    Try = filtered.Sum(result => result.Try),
+                    Hit = filtered.Sum(result => result.Hit)
+                });
 
-            var items = _context.Ranks.ToList();
-            var model = _mapper.Map<IEnumerable<RankViewModel>>(items);
-
-            // order by rate desc
-            // take count
+            var model = _mapper.Map<RankViewModel>(item);
 
             return model;
         }
 
-        public IEnumerable<RankViewModel> MonthlyList()
+        public RankViewModel GetByPlayerIdNCraneId(string playerId, string craneId)
         {
-            var items = _context.Ranks.ToList();
-            var model = _mapper.Map<IEnumerable<RankViewModel>>(items);
+            throw new NotImplementedException();
+        }
+
+        public RankViewModel GetByPlayerName(string playerName)
+        {
+            var item = _context.CraneRecords
+                .Where(rank => rank.Player.Name == playerName)
+                .Select( filtered => new CraneRecord
+                {
+                    PlayerId = filtered.PlayerId,
+                    Player = filtered.Player,
+                    Try = filtered.Try,
+                    Hit = filtered.Hit
+                })
+                .GroupBy(filtered => filtered.PlayerId)
+                .Select(group => new CraneRecord
+                {
+                    Player = group.FirstOrDefault().Player,
+                    Try = group.Sum(result => result.Try),
+                    Hit = group.Sum(result => result.Hit)
+                });
+
+            var model = _mapper.Map<RankViewModel>(item);
 
             return model;
         }
 
-        public IEnumerable<RankViewModel> MonthlyListByCrane(int count)
+        public RankViewModel GetByPlayerNameNCraneId(string playerName, string craneId)
         {
-            var items = _context.Ranks.ToList();
-            var model = _mapper.Map<IEnumerable<RankViewModel>>(items);
-
-            return model;
+            throw new NotImplementedException();
         }
 
-        public IEnumerable<RankViewModel> MonthlyListByCrane()
+        public IEnumerable<RankViewModel> List(int count)
         {
-            var items = _context.Ranks.ToList();
-            var model = _mapper.Map<IEnumerable<RankViewModel>>(items);
-
-            return model;
-        }
-
-        public IEnumerable<RankViewModel> WeeklyList(int count)
-        {
-            var items = _context.Ranks.ToList();
-            var model = _mapper.Map<IEnumerable<RankViewModel>>(items);
-
-            return model;
-        }
-
-        public IEnumerable<RankViewModel> WeeklyList()
-        {
-            var items = _context.Ranks.ToList();
-            var model = _mapper.Map<IEnumerable<RankViewModel>>(items);
-
-            return model;
-        }
-
-        public IEnumerable<RankViewModel> WeeklyListByCrane(int count)
-        {
-            var items = _context.Ranks.ToList();
-            var model = _mapper.Map<IEnumerable<RankViewModel>>(items);
-
-            return model;
-        }
-
-        public IEnumerable<RankViewModel> WeeklyListByCrane()
-        {
-            var items = _context.Ranks.ToList();
+            var items = _context.CraneRecords.ToList();
             var model = _mapper.Map<IEnumerable<RankViewModel>>(items);
 
             return model;
         }
 
-        /// <summary>
-        /// weekly, monthly, byCrane
-        /// </summary>
-        /// <param name="count"></param>
-        /// <returns></returns>
-        //public IEnumerable<RankViewModel> ListAsync(int count)
-        //{
-        //    var items = _context.Ranks.ToList();
-        //    var model = _mapper.Map<IEnumerable<RankViewModel>>(items);
+        public IEnumerable<RankViewModel> List()
+        {
+            var items = _context.CraneRecords.ToList();
+            var model = _mapper.Map<IEnumerable<RankViewModel>>(items);
 
-        //    return model;
-        //}
+            return model;
+        }
 
-        //public IEnumerable<RankViewModel> ListAsync()
-        //{
-        //    var items = _context.Ranks.ToList();
-        //    var model = _mapper.Map<IEnumerable<RankViewModel>>(items);
+        public IEnumerable<RankViewModel> ListByCraneId(string craneId)
+        {
+            var items = _context.CraneRecords.ToList();
+            var model = _mapper.Map<IEnumerable<RankViewModel>>(items);
 
-        //    return model;
-        //}
+            return model;
+        }
+
+        public IEnumerable<RankViewModel> ListByCraneId(string craneId, int count)
+        {
+            var items = _context.CraneRecords.ToList();
+            var model = _mapper.Map<IEnumerable<RankViewModel>>(items);
+
+            return model;
+        }
     }
 }

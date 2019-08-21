@@ -10,7 +10,7 @@ using Wallabe.Domains;
 using Wallabe.Models;
 using Wallabe.Service;
 
-namespace Wallabe.Controllers
+namespace Wallabe.Controllers.Api
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -36,6 +36,22 @@ namespace Wallabe.Controllers
         public IEnumerable<DollViewModel> GetDolls([FromRoute]int count)
         {
             return _dollService.List(count);
+        }
+
+        // GET: api/Dolls
+        [HttpGet("{craneId:guid}")]
+        //[HttpGet("{id}")]
+        public IEnumerable<DollViewModel> GetDollsByCraneId([FromRoute]string craneId)
+        {
+            return _dollService.ListByCraneId(craneId);
+        }
+
+        // GET: api/Dolls
+        [HttpGet("{craneId:guid}/{count:int}")]
+        //[HttpGet("{id}")]
+        public IEnumerable<DollViewModel> GetDollsByCraneId([FromRoute]string craneId, [FromRoute]int count)
+        {
+            return _dollService.ListByCraneId(craneId, count);
         }
 
         #region comment

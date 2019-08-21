@@ -19,13 +19,25 @@ namespace Wallabe.Data
 
         public DbSet<Doll> Dolls { get; set; }
 
-        public DbSet<Rank> Ranks { get; set; }
-        
+        public DbSet<Record> Records { get; set; }
+
+        public DbSet<CraneRecord> CraneRecords { get; set; }
+
+        public DbSet<Player> Players { get; set; }
+
+        public DbSet<Game> Games { get; set; }
+
+        public DbSet<Play> Plays { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfiguration(new CraneConfiguration());
             builder.ApplyConfiguration(new DollConfiguration());
-            builder.ApplyConfiguration(new RankConfiguration());
+            builder.ApplyConfiguration(new RecordConfiguration());
+            builder.ApplyConfiguration(new CraneRecordConfiguration());
+            builder.ApplyConfiguration(new PlayerConfiguration());
+            builder.ApplyConfiguration(new GameConfiguration());
+            builder.ApplyConfiguration(new PlayConfiguration());
 
             base.OnModelCreating(builder);
         }

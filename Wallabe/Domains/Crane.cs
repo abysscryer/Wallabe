@@ -14,8 +14,12 @@ namespace Wallabe.Domains
 
         public PlayStatus Status { get; set; }
 
+        public string ImagePath { get; set; }
+
         public virtual ICollection<Doll> Dolls { get; set; }
 
-        public virtual ICollection<Rank> Ranks { get; set; }
+        public virtual ICollection<CraneRecord> CraneRecords { get; set; }
+
+        public virtual ICollection<Game> Games { get; set; }
     }
 }

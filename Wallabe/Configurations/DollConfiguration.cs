@@ -27,7 +27,12 @@ namespace Wallabe.Configurations
                 .HasForeignKey(doll => doll.CraneId);
 
             builder
-                .Property(doll => doll.ImaagePath)
+                .Property(doll => doll.OnCreated)
+                .HasDefaultValueSql("getdate()")
+                .IsRequired();
+
+            builder
+                .Property(doll => doll.ImagePath)
                 .HasColumnType("varchar(256)");
         }
     }

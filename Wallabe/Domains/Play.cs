@@ -10,8 +10,10 @@ namespace Wallabe.Domains
 
         public PlayStatus Status { get; set; }
 
-        public bool State { get; set; }
+        public PlayState State { get; set; }
 
         public DateTime OnCreated { get; set; }
+
+        public Game Game { get; set; }
     }
 }

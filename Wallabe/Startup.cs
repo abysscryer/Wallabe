@@ -58,6 +58,8 @@ namespace Wallabe
             services.AddScoped<IDollService, DollService>();
             services.AddScoped<IRankService, RankService>();
 
+            services.AddCors();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddSwaggerDocument();
@@ -85,6 +87,12 @@ namespace Wallabe
 
             app.UseOpenApi();
             app.UseSwaggerUi3();
+
+            app.UseCors(builder => builder
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials());
 
             app.UseMvc(routes =>
             {

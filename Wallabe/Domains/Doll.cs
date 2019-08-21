@@ -13,12 +13,12 @@ namespace Wallabe.Domains
 
         public int Quantity { get; set; }
 
+        public string ImagePath { get; set; }
+
         public DateTime OnCreated { get; set; }
 
         public string CraneId { get; set; }
 
         public virtual Crane Crane { get; set; }
-
-        public string ImaagePath { get; set; }
     }
 }

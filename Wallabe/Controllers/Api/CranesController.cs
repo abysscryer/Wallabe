@@ -10,7 +10,7 @@ using Wallabe.Domains;
 using Wallabe.Models;
 using Wallabe.Service;
 
-namespace Wallabe.Controllers
+namespace Wallabe.Controllers.Api
 {
     [Route("api/[controller]")]
     [ApiController]

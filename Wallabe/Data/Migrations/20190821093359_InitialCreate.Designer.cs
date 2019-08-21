@@ -10,7 +10,7 @@ using Wallabe.Data;
 namespace Wallabe.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190819131950_InitialCreate")]
+    [Migration("20190821093359_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -192,6 +192,9 @@ namespace Wallabe.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("varchar(256)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(32)");
@@ -203,6 +206,34 @@ namespace Wallabe.Data.Migrations
                     b.ToTable("Cranes");
                 });
 
+            modelBuilder.Entity("Wallabe.Domains.CraneRecord", b =>
+                {
+                    b.Property<string>("Date")
+                        .HasColumnType("char(8)");
+
+                    b.Property<string>("CraneId");
+
+                    b.Property<string>("PlayerId");
+
+                    b.Property<int>("Hit");
+
+                    b.Property<int>("Rank");
+
+                    b.Property<float>("Rate");
+
+                    b.Property<int>("Shift");
+
+                    b.Property<int>("Try");
+
+                    b.HasKey("Date", "CraneId", "PlayerId");
+
+                    b.HasIndex("CraneId");
+
+                    b.HasIndex("PlayerId");
+
+                    b.ToTable("CraneRecords");
+                });
+
             modelBuilder.Entity("Wallabe.Domains.Doll", b =>
                 {
                     b.Property<string>("Id")
@@ -211,7 +242,7 @@ namespace Wallabe.Data.Migrations
 
                     b.Property<string>("CraneId");
 
-                    b.Property<string>("ImaagePath")
+                    b.Property<string>("ImagePath")
                         .HasColumnType("varchar(256)");
 
                     b.Property<string>("Name")
@@ -229,24 +260,101 @@ namespace Wallabe.Data.Migrations
                     b.ToTable("Dolls");
                 });
 
-            modelBuilder.Entity("Wallabe.Domains.Rank", b =>
+            modelBuilder.Entity("Wallabe.Domains.Game", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("CraneId")
+                        .IsRequired();
+
+                    b.Property<DateTime>("OnCreated")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("getdate()");
+
+                    b.Property<DateTime>("OnUpdated");
+
+                    b.Property<string>("PlayerId")
+                        .IsRequired();
+
+                    b.Property<bool>("State");
+
+                    b.Property<int>("Status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CraneId");
+
+                    b.HasIndex("PlayerId");
+
+                    b.ToTable("Games");
+                });
+
+            modelBuilder.Entity("Wallabe.Domains.Play", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("GameId")
+                        .IsRequired();
+
+                    b.Property<DateTime>("OnCreated")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("getdate()");
+
+                    b.Property<int>("State");
+
+                    b.Property<int>("Status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GameId");
+
+                    b.ToTable("Plays");
+                });
+
+            modelBuilder.Entity("Wallabe.Domains.Player", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(32)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Players");
+                });
+
+            modelBuilder.Entity("Wallabe.Domains.Record", b =>
                 {
                     b.Property<string>("Date")
                         .HasColumnType("char(8)");
-
-                    b.Property<string>("Craneid");
 
                     b.Property<string>("PlayerId");
 
                     b.Property<int>("Hit");
 
+                    b.Property<int>("Rank");
+
+                    b.Property<float>("Rate");
+
+                    b.Property<int>("Shift");
+
                     b.Property<int>("Try");
 
-                    b.HasKey("Date", "Craneid", "PlayerId");
+                    b.HasKey("Date", "PlayerId");
 
-                    b.HasIndex("Craneid");
+                    b.HasIndex("PlayerId");
 
-                    b.ToTable("Ranks");
+                    b.ToTable("Records");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -294,6 +402,19 @@ namespace Wallabe.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("Wallabe.Domains.CraneRecord", b =>
+                {
+                    b.HasOne("Wallabe.Domains.Crane", "Crane")
+                        .WithMany("CraneRecords")
+                        .HasForeignKey("CraneId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Wallabe.Domains.Player", "Player")
+                        .WithMany("CraneRecords")
+                        .HasForeignKey("PlayerId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("Wallabe.Domains.Doll", b =>
                 {
                     b.HasOne("Wallabe.Domains.Crane", "Crane")
@@ -301,11 +422,32 @@ namespace Wallabe.Data.Migrations
                         .HasForeignKey("CraneId");
                 });
 
-            modelBuilder.Entity("Wallabe.Domains.Rank", b =>
+            modelBuilder.Entity("Wallabe.Domains.Game", b =>
                 {
+                    b.HasOne("Wallabe.Domains.Player", "Player")
+                        .WithMany("Games")
+                        .HasForeignKey("CraneId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("Wallabe.Domains.Crane", "Crane")
-                        .WithMany("Ranks")
-                        .HasForeignKey("Craneid")
+                        .WithMany("Games")
+                        .HasForeignKey("PlayerId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Wallabe.Domains.Play", b =>
+                {
+                    b.HasOne("Wallabe.Domains.Game", "Game")
+                        .WithMany("Plays")
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Wallabe.Domains.Record", b =>
+                {
+                    b.HasOne("Wallabe.Domains.Player", "Player")
+                        .WithMany("Records")
+                        .HasForeignKey("PlayerId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

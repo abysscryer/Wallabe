@@ -8,21 +8,21 @@ using Wallabe.Domains;
 
 namespace Wallabe.Configurations
 {
-    public class CraneConfiguration : IEntityTypeConfiguration<Crane>
+    public class PlayerConfiguration : IEntityTypeConfiguration<Player>
     {
-        public void Configure(EntityTypeBuilder<Crane> builder)
+        public void Configure(EntityTypeBuilder<Player> builder)
         {
             builder
-                .Property(crane => crane.Id)
+                .Property(palyer => palyer.Id)
                 .HasColumnType("char(36)");
 
             builder
-                .Property(crane => crane.Name)
+                .Property(palyer => palyer.Name)
                 .HasColumnType("nvarchar(32)")
                 .IsRequired();
 
             builder
-                .Property(crane => crane.ImagePath)
+                .Property(player => player.ImagePath)
                 .HasColumnType("varchar(256)");
         }
     }
