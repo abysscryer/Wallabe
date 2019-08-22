@@ -29,15 +29,28 @@ namespace Wallabe.Data
 
         public DbSet<Play> Plays { get; set; }
 
+        public DbSet<Product> Products { get; set; }
+
+        public DbSet<Order> Orders { get; set; }
+        
+
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfiguration(new CraneConfiguration());
             builder.ApplyConfiguration(new DollConfiguration());
+
             builder.ApplyConfiguration(new RecordConfiguration());
             builder.ApplyConfiguration(new CraneRecordConfiguration());
+            
+            builder.ApplyConfiguration(new ProductConfiguration());
+            builder.ApplyConfiguration(new OrderConfiguration());
+
             builder.ApplyConfiguration(new PlayerConfiguration());
             builder.ApplyConfiguration(new GameConfiguration());
             builder.ApplyConfiguration(new PlayConfiguration());
+
+            builder.Seed();
 
             base.OnModelCreating(builder);
         }

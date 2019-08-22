@@ -15,5 +15,7 @@ namespace Wallabe.Models
         public PlayStatus Status { get; set; }
 
         public string ImagePath { get; set; }
+
+        public int Waitings { get; set; }
     }
 }

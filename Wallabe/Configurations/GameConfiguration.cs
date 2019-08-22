@@ -24,14 +24,22 @@ namespace Wallabe.Configurations
             builder
                 .HasOne(game => game.Player)
                 .WithMany(player => player.Games)
-                .HasForeignKey(game => game.CraneId)
-                .IsRequired();
+                .HasForeignKey(game => game.PlayerId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder
                 .HasOne(game => game.Crane)
                 .WithMany(crane => crane.Games)
-                .HasForeignKey(game => game.PlayerId)
-                .IsRequired();
+                .HasForeignKey(game => game.CraneId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(game => game.Order)
+                .WithMany(order => order.Games)
+                .HasForeignKey(game => game.OrderId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

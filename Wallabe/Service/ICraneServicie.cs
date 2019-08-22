@@ -8,6 +8,7 @@ namespace Wallabe.Service
 {
     public interface ICraneService
     {
+        CraneViewModel Get(string craneId);
         IEnumerable<CraneViewModel> List();
         //Task<IPagedList<CraneViewModel>> ListAsync(CraneSearchModel searchModel);
         //Task<bool> CreateAsync(CraneCreateModel createModel);

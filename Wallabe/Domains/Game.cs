@@ -13,6 +13,8 @@ namespace Wallabe.Domains
 
         public string CraneId { get; set; }
 
+        public string OrderId { get; set; }
+
         public PlayStatus Status { get; set; }
 
         public PlayState State { get; set; }
@@ -24,6 +26,8 @@ namespace Wallabe.Domains
         public virtual  Player Player { get; set; }
 
         public virtual Crane Crane { get; set; }
+
+        public virtual Order Order { get; set; }
 
         public virtual ICollection<Play> Plays { get; set; }
     }

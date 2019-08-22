@@ -21,10 +21,36 @@ namespace Wallabe.Service
 
         public IEnumerable<CraneViewModel> List()
         {
-            var items = _context.Cranes.ToList();
-            var model = _mapper.Map<IEnumerable<CraneViewModel>>(items);
+            var items = _context.Cranes
+                .Select(x => new CraneViewModel
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    ImagePath = x.ImagePath,
+                    Status = x.Status
+                    // performance issue
+                    // Waitings = x.Games.Where(g => g.Status < Domains.PlayStatus.Over).Count()
+                })
+                .ToList();
+           
 
-            return model;
+            return items;
+        }
+
+        public CraneViewModel Get(string craneId)
+        {
+            var item = _context.Cranes
+                .Select(x => new CraneViewModel
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    ImagePath = x.ImagePath,
+                    Status = x.Status,
+                    Waitings = x.Games.Where(g => g.Status < Domains.PlayStatus.Over).Count()
+                })
+                .SingleOrDefault(x => x.Id == craneId);
+
+            return item;
         }
     }
 }

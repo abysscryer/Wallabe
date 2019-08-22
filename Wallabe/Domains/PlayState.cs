@@ -11,7 +11,7 @@ namespace Wallabe.Domains
     public enum PlayState
     {
         Waiting,
-        Success,
-        Fail
+        Win,
+        Lose
     }
 }

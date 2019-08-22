@@ -21,5 +21,7 @@ namespace Wallabe.Domains
         public virtual ICollection<CraneRecord> CraneRecords { get; set; }
 
         public virtual ICollection<Game> Games { get; set; }
+
+        public virtual ICollection<Product> Products { get; set; }
     }
 }

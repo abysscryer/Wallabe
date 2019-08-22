@@ -25,6 +25,13 @@ namespace Wallabe.Controllers.Api
         }
 
         // GET: api/cranes
+        [HttpGet("{craneId:guid}")]
+        public CraneViewModel GetCrane([FromRoute]string craneId)
+        {
+            return _craneService.Get(craneId);
+        }
+
+        // GET: api/cranes
         [HttpGet]
         public IEnumerable<CraneViewModel> GetCranes()
         {

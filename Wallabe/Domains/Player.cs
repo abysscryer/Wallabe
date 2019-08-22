@@ -22,10 +22,13 @@ namespace Wallabe.Domains
         /// </summary>
         public string ImagePath { get; set; }
 
+        public int Cash { get; set; }
+
         public virtual ICollection<Game> Games { get; set; }
 
         public virtual ICollection<Record> Records { get; set; }
 
         public virtual ICollection<CraneRecord> CraneRecords { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }

@@ -24,7 +24,28 @@ namespace Wallabe.Controllers.Api
         }
 
         /// <summary>
-        /// GET: api/ranks/{palyerId}
+        /// GET: api/ranks 
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public IEnumerable<RankViewModel> GetRanks()
+        {
+            return _rankService.List();
+        }
+
+        /// <summary>
+        /// GET: api/ranks/{count:int} 
+        /// </summary>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        [HttpGet("{count:int}")]
+        public IEnumerable<RankViewModel> GetRanks([FromRoute]int count)
+        {
+            return _rankService.List(count);
+        }
+
+        /// <summary>
+        /// GET: api/ranks/{palyerId:guid}
         /// </summary>
         /// <param name="playerId"></param>
         /// <returns></returns>
@@ -32,18 +53,6 @@ namespace Wallabe.Controllers.Api
         public RankViewModel GeByPalyerId([FromRoute]string playerId)
         {
             return _rankService.GetByPlayerId(playerId);
-        }
-
-        /// <summary>
-        /// GET: api/ranks/{playerId}/{craneId}
-        /// </summary>
-        /// <param name="playerId"></param>
-        /// <param name="craneId"></param>
-        /// <returns></returns>
-        [HttpGet("{playerId:guid}/{craneId:guid}")]
-        public RankViewModel GeByPaylerIdNCraneId([FromRoute]string playerId, [FromRoute]string craneId)
-        {
-            return _rankService.GetByPlayerIdNCraneId(playerId, craneId);
         }
 
         /// <summary>
@@ -58,43 +67,50 @@ namespace Wallabe.Controllers.Api
         }
 
         /// <summary>
-        /// GET: api/ranks/{playerName}/{craneId}
+        /// GET: api/ranks/crane/{craneId:guid} 
         /// </summary>
-        /// <param name="playerName"></param>
         /// <param name="craneId"></param>
         /// <returns></returns>
-        [HttpGet("{playerName}/{craneId:guid}")]
-        public RankViewModel GeByPlayerNameNCraneId([FromRoute]string playerName, [FromRoute]string craneId)
+        [HttpGet("crane/{craneId:guid}")]
+        public IEnumerable<RankViewModel> GetByCraneId([FromRoute]string craneId)
         {
-            return _rankService.GetByPlayerNameNCraneId(playerName, craneId);
+            return _rankService.ListByCraneId(craneId);
         }
 
-        // GET: api/cranes
-        [HttpGet("{count:int}")]
-        public IEnumerable<RankViewModel> GetRanks([FromRoute]int count)
-        {
-            return _rankService.List(count);
-        }
-
-        // GET: api/cranes
-        [HttpGet]
-        public IEnumerable<RankViewModel> GetRanks()
-        {
-            return _rankService.List();
-        }
-
-        // GET: api/cranes
-        [HttpGet("{craneId:guid}/{count:int}")]
+        /// <summary>
+        /// GET: api/ranks/crane/{craneId:guid}/{count:int} 
+        /// </summary>
+        /// <param name="craneId"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        [HttpGet("crane/{craneId:guid}/{count:int}")]
         public IEnumerable<RankViewModel> GetByCraneId([FromRoute]string craneId, [FromRoute]int count)
         {
             return _rankService.ListByCraneId(craneId, count);
         }
 
-        // GET: api/cranes
-        [HttpGet("{craneId:guid}")]
-        public IEnumerable<RankViewModel> GetByCraneId([FromRoute]string craneId)
+        /// <summary>
+        /// GET: api/ranks/crane/{craneId:guid}/{playerId:guid}
+        /// </summary>
+        /// <param name="playerId"></param>
+        /// <param name="craneId"></param>
+        /// <returns></returns>
+        [HttpGet("crane/{craneId:guid}/{playerId:guid}")]
+        public RankViewModel GeByPaylerIdNCraneId([FromRoute]string craneId, [FromRoute]string playerId)
         {
-            return _rankService.ListByCraneId(craneId);
+            return _rankService.GetByCraneIdNPlayerId(craneId, playerId);
+        }
+
+        /// <summary>
+        /// GET: api/ranks/crane/{craneId:guid}/{playerName}/
+        /// </summary>
+        /// <param name="playerName"></param>
+        /// <param name="craneId"></param>
+        /// <returns></returns>
+        [HttpGet("crane/{craneId:guid}/{playerName}")]
+        public RankViewModel GeByPlayerNameNCraneId([FromRoute]string craneId, [FromRoute]string playerName)
+        {
+            return _rankService.GetByCraneIdNPlayerName(craneId, playerName);
         }
     }
 }
