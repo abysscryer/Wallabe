@@ -4,10 +4,10 @@ Adding a Migration
 > dotnet ef migrations add InitialCreate
 
 Creating or Updating the Database
-> dotnet ef migrations remove
+> dotnet ef database update
 
 Removing a Migration
-> dotnet ef database update
+> dotnet ef migrations remove
 
 Reverting a Migration
 > dotnet ef database update LastGoodMigration
