@@ -9,6 +9,8 @@ namespace Wallabe.Domains
     {
         public string Id { get; set; }
 
+        public string Name { get; set; }
+
         public string CraneId { get; set; }
 
         public int Quantity { get; set; }

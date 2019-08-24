@@ -16,6 +16,8 @@ namespace Wallabe.Domains
 
         public string ImagePath { get; set; }
 
+        public DateTime OnCreated { get; set; }
+
         public virtual ICollection<Doll> Dolls { get; set; }
 
         public virtual ICollection<CraneRecord> CraneRecords { get; set; }

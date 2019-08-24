@@ -13,6 +13,10 @@ namespace Wallabe.Configurations
         public void Configure(EntityTypeBuilder<Player> builder)
         {
             builder
+                .HasKey(player => player.Id)
+                .ForSqlServerIsClustered(false);
+
+            builder
                 .Property(palyer => palyer.Id)
                 .HasColumnType("char(36)");
 
@@ -24,6 +28,15 @@ namespace Wallabe.Configurations
             builder
                 .Property(player => player.ImagePath)
                 .HasColumnType("varchar(256)");
+
+            builder
+                .Property(player => player.OnCreated)
+                .IsRequired();
+
+            builder
+                .HasIndex(player => player.Name)
+                .IsUnique()
+                .ForSqlServerIsClustered(true);
         }
     }
 }

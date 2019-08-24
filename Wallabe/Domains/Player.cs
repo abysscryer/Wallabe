@@ -24,6 +24,8 @@ namespace Wallabe.Domains
 
         public int Cash { get; set; }
 
+        public DateTime OnCreated { get; set; }
+
         public virtual ICollection<Game> Games { get; set; }
 
         public virtual ICollection<Record> Records { get; set; }

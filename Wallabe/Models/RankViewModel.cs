@@ -7,6 +7,7 @@ namespace Wallabe.Models
 {
     public class RankViewModel
     {
+        public string Date { get; set; }
         /// <summary>
         /// 닉네임
         /// </summary>

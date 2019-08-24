@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Wallabe.Business;
 using Wallabe.Data;
 using Wallabe.Models;
 
@@ -12,10 +13,12 @@ namespace Wallabe.Service
     public class CraneService : ICraneService
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<CraneService> _logger;
         private readonly IMapper _mapper;
-        public CraneService(ApplicationDbContext context, IMapper mapper, ILogger<CraneService> logger)
+        public CraneService(ApplicationDbContext context, ILogger<CraneService> logger, IMapper mapper)
         {
             _context = context;
+            _logger = logger;
             _mapper = mapper;
         }
 

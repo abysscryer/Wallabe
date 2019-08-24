@@ -15,80 +15,78 @@ namespace Wallabe.Controllers.Api
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CranesController : ControllerBase
+    public class ProductsController : ControllerBase
     {
+        private readonly IProductService _productService;
 
-        private readonly ICraneService _craneService;
-
-        public CranesController(ICraneService craneService)
+        public ProductsController(IProductService productService )
         {
-            _craneService = craneService;
+            _productService = productService;
+        }
+
+        [HttpGet]
+        public IEnumerable<ProductViewModel> GetProducts()
+        {
+            return _productService.List();
         }
 
         // GET: api/cranes
         [HttpGet("{craneId:guid}")]
-        public CraneViewModel GetCrane([FromRoute]string craneId)
+        public IEnumerable<ProductViewModel> GetProducts([FromRoute]string craneId)
         {
-            return _craneService.Get(craneId);
-        }
-
-        // GET: api/cranes
-        [HttpGet]
-        public IEnumerable<CraneViewModel> GetCranes()
-        {
-            return _craneService.List();
+            return _productService.List(craneId);
         }
 
         #region comment
 
         //private readonly ApplicationDbContext _context;
 
-        //public CranesController(ApplicationDbContext context)
+        //public ProductsController(ApplicationDbContext context)
         //{
         //    _context = context;
         //}
 
-        //// GET: api/Cranes
+        //// GET: api/Products
         //[HttpGet]
-        //public IEnumerable<Crane> GetCranes()
+        //public IEnumerable<Product> GetProducts()
         //{
-        //    return _context.Cranes;
+        //    return _context.Products;
         //}
 
-        //// GET: api/Cranes/5
+        //// GET: api/Products/5
         //[HttpGet("{id}")]
-        //public async Task<IActionResult> GetCrane([FromRoute] string id)
+        //public async Task<IActionResult> GetProduct([FromRoute] string id)
         //{
         //    if (!ModelState.IsValid)
         //    {
         //        return BadRequest(ModelState);
         //    }
 
-        //    var crane = await _context.Cranes.FindAsync(id);
+        //    var product = await _context.Products.FindAsync(id);
 
-        //    if (crane == null)
+        //    if (product == null)
         //    {
         //        return NotFound();
         //    }
 
-        //    return Ok(crane);
+        //    return Ok(product);
         //}
 
-        //// PUT: api/Cranes/5
+        //// PUT: api/Products/5
         //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutCrane([FromRoute] string id, [FromBody] Crane crane)
+        //public async Task<IActionResult> PutProduct([FromRoute] string id, [FromBody] Product product)
         //{
         //    if (!ModelState.IsValid)
         //    {
         //        return BadRequest(ModelState);
         //    }
 
-        //    if (id != crane.Id)
+        //    if (id != product.Id)
         //    {
         //        return BadRequest();
         //    }
 
-        //    _context.Entry(crane).State = EntityState.Modified;
+        //    _context.Entry(product).State = EntityState.Modified;
 
         //    try
         //    {
@@ -96,7 +94,7 @@ namespace Wallabe.Controllers.Api
         //    }
         //    catch (DbUpdateConcurrencyException)
         //    {
-        //        if (!CraneExists(id))
+        //        if (!ProductExists(id))
         //        {
         //            return NotFound();
         //        }
@@ -109,49 +107,47 @@ namespace Wallabe.Controllers.Api
         //    return NoContent();
         //}
 
-        //// POST: api/Cranes
+        //// POST: api/Products
         //[HttpPost]
-        //public async Task<IActionResult> PostCrane([FromBody] Crane crane)
+        //public async Task<IActionResult> PostProduct([FromBody] Product product)
         //{
         //    if (!ModelState.IsValid)
         //    {
         //        return BadRequest(ModelState);
         //    }
 
-        //    _context.Cranes.Add(crane);
+        //    _context.Products.Add(product);
         //    await _context.SaveChangesAsync();
 
-        //    return CreatedAtAction("GetCrane", new { id = crane.Id }, crane);
+        //    return CreatedAtAction("GetProduct", new { id = product.Id }, product);
         //}
 
-        //// DELETE: api/Cranes/5
+        //// DELETE: api/Products/5
         //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteCrane([FromRoute] string id)
+        //public async Task<IActionResult> DeleteProduct([FromRoute] string id)
         //{
         //    if (!ModelState.IsValid)
         //    {
         //        return BadRequest(ModelState);
         //    }
 
-        //    var crane = await _context.Cranes.FindAsync(id);
-        //    if (crane == null)
+        //    var product = await _context.Products.FindAsync(id);
+        //    if (product == null)
         //    {
         //        return NotFound();
         //    }
 
-        //    _context.Cranes.Remove(crane);
+        //    _context.Products.Remove(product);
         //    await _context.SaveChangesAsync();
 
-        //    return Ok(crane);
+        //    return Ok(product);
         //}
 
-        //private bool CraneExists(string id)
+        //private bool ProductExists(string id)
         //{
-        //    return _context.Cranes.Any(e => e.Id == id);
+        //    return _context.Products.Any(e => e.Id == id);
         //}
 
         #endregion
-
-
     }
 }

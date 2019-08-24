@@ -13,6 +13,10 @@ namespace Wallabe.Configurations
         public void Configure(EntityTypeBuilder<Doll> builder)
         {
             builder
+                .HasKey(doll => doll.Id)
+                .ForSqlServerIsClustered(false);
+
+            builder
                 .Property(doll => doll.Id)
                 .HasColumnType("char(36)");
 
@@ -27,13 +31,16 @@ namespace Wallabe.Configurations
                 .HasForeignKey(doll => doll.CraneId);
 
             builder
+                .Property(doll => doll.ImagePath)
+                .HasColumnType("varchar(256)");
+
+            builder
                 .Property(doll => doll.OnCreated)
-                .HasDefaultValueSql("getdate()")
                 .IsRequired();
 
             builder
-                .Property(doll => doll.ImagePath)
-                .HasColumnType("varchar(256)");
+                .HasIndex(doll => doll.OnCreated)
+                .ForSqlServerIsClustered(true);
         }
     }
 }

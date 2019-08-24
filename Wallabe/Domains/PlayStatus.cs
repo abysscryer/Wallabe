@@ -10,7 +10,8 @@ namespace Wallabe.Domains
     /// </summary>
     public enum PlayStatus
     {
-        Ready,
+        Pending,
+        Entry,
         Playing,
         Over
     }

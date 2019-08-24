@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Wallabe.Business;
 using Wallabe.Data;
 using Wallabe.Models;
 
@@ -13,10 +14,12 @@ namespace Wallabe.Service
     {
 
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<DollService> _logger;
         private readonly IMapper _mapper;
-        public DollService(ApplicationDbContext context, IMapper mapper, ILogger<DollService> logger)
+        public DollService(ApplicationDbContext context, ILogger<DollService> logger, IMapper mapper)
         {
             _context = context;
+            _logger = logger;
             _mapper = mapper;
         }
 
@@ -32,6 +35,7 @@ namespace Wallabe.Service
                     ImaagePath = result.ImagePath,
                     Quantity = result.Quantity,
                     CraneId = result.CraneId,
+                    CraneName = result.Crane.Name,
                     Status = result.Crane.Status
                 })
                 .ToList();
@@ -50,6 +54,7 @@ namespace Wallabe.Service
                     ImaagePath = result.ImagePath,
                     Quantity = result.Quantity,
                     CraneId = result.CraneId,
+                    CraneName = result.Crane.Name,
                     Status = result.Crane.Status
                 })
                 .ToList();
@@ -69,6 +74,7 @@ namespace Wallabe.Service
                     ImaagePath = result.ImagePath,
                     Quantity = result.Quantity,
                     CraneId = result.CraneId,
+                    CraneName = result.Crane.Name,
                     Status = result.Crane.Status
                 })
                 .ToList();
@@ -89,6 +95,7 @@ namespace Wallabe.Service
                     ImaagePath = result.ImagePath,
                     Quantity = result.Quantity,
                     CraneId = result.CraneId,
+                    CraneName = result.Crane.Name,
                     Status = result.Crane.Status
                 })
                 .ToList();

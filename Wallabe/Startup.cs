@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
 using Wallabe.Business;
 using Wallabe.Service;
+using Wallabe.Configurations.Mapper;
 
 namespace Wallabe
 {
@@ -56,6 +57,12 @@ namespace Wallabe
 
             services.AddScoped<ICraneService, CraneService>();
             services.AddScoped<IDollService, DollService>();
+            
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IGameService, GameService>();
+            services.AddScoped<IPlayService, PlayService>();
+
             services.AddScoped<IRankService, RankService>();
 
             services.AddCors();

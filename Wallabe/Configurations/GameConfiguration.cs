@@ -13,12 +13,15 @@ namespace Wallabe.Configurations
         public void Configure(EntityTypeBuilder<Game> builder)
         {
             builder
+                .HasKey(game => game.Id)
+                .ForSqlServerIsClustered(false);
+
+            builder
                 .Property(game => game.Id)
                 .HasColumnType("char(36)");
 
             builder
                 .Property(game => game.OnCreated)
-                .HasDefaultValueSql("getdate()")
                 .IsRequired();
 
             builder
@@ -40,6 +43,10 @@ namespace Wallabe.Configurations
                 .HasForeignKey(game => game.OrderId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .HasIndex(game => game.OnCreated)
+                .ForSqlServerIsClustered(true);
         }
     }
 }

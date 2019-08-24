@@ -7,6 +7,11 @@ namespace Wallabe.Domains
 {
     public class Order
     {
+        public Order()
+        {
+            Games = new HashSet<Game>();
+        }
+
         public string Id { get; set; }
 
         public DateTime OnCreated { get; set; }
@@ -19,6 +24,6 @@ namespace Wallabe.Domains
 
         public virtual Product Product { get; set; }
 
-        public virtual ICollection<Game> Games { get; set; }
+        public virtual ICollection<Game> Games { get; private set; }
     }
 }

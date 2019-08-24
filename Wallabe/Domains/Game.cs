@@ -7,6 +7,11 @@ namespace Wallabe.Domains
 {
     public class Game
     {
+        public Game()
+        {
+            Plays = new HashSet<Play>();
+        }
+
         public string Id { get; set; }
 
         public string PlayerId { get; set; }
@@ -29,6 +34,6 @@ namespace Wallabe.Domains
 
         public virtual Order Order { get; set; }
 
-        public virtual ICollection<Play> Plays { get; set; }
+        public virtual ICollection<Play> Plays { get; private set; }
     }
 }

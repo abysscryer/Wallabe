@@ -197,15 +197,21 @@ namespace Wallabe.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(32)");
 
+                    b.Property<DateTime>("OnCreated");
+
                     b.Property<int>("Status");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasAnnotation("SqlServer:Clustered", false);
+
+                    b.HasIndex("OnCreated")
+                        .HasAnnotation("SqlServer:Clustered", true);
 
                     b.ToTable("Cranes");
 
                     b.HasData(
-                        new { Id = "42ba9d7d-62ba-4958-87a7-1bef9df38674", ImagePath = "42ba9d7d-62ba-4958-87a7-1bef9df38674", Name = "원피스", Status = 0 },
-                        new { Id = "ce7ea78e-56d6-49db-bb84-4165e3c958e9", ImagePath = "ce7ea78e-56d6-49db-bb84-4165e3c958e9", Name = "포켓몬", Status = 0 }
+                        new { Id = "42ba9d7d-62ba-4958-87a7-1bef9df38674", ImagePath = "42ba9d7d-62ba-4958-87a7-1bef9df38674", Name = "원피스", OnCreated = new DateTime(2019, 8, 22, 12, 0, 0, 0, DateTimeKind.Local), Status = 0 },
+                        new { Id = "ce7ea78e-56d6-49db-bb84-4165e3c958e9", ImagePath = "ce7ea78e-56d6-49db-bb84-4165e3c958e9", Name = "포켓몬", OnCreated = new DateTime(2019, 8, 22, 12, 0, 1, 0, DateTimeKind.Local), Status = 0 }
                     );
                 });
 
@@ -252,15 +258,17 @@ namespace Wallabe.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(32)");
 
-                    b.Property<DateTime>("OnCreated")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("getdate()");
+                    b.Property<DateTime>("OnCreated");
 
                     b.Property<int>("Quantity");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasAnnotation("SqlServer:Clustered", false);
 
                     b.HasIndex("CraneId");
+
+                    b.HasIndex("OnCreated")
+                        .HasAnnotation("SqlServer:Clustered", true);
 
                     b.ToTable("Dolls");
 
@@ -281,9 +289,7 @@ namespace Wallabe.Data.Migrations
                     b.Property<string>("CraneId")
                         .IsRequired();
 
-                    b.Property<DateTime>("OnCreated")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("getdate()");
+                    b.Property<DateTime>("OnCreated");
 
                     b.Property<DateTime>("OnUpdated");
 
@@ -297,9 +303,13 @@ namespace Wallabe.Data.Migrations
 
                     b.Property<int>("Status");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasAnnotation("SqlServer:Clustered", false);
 
                     b.HasIndex("CraneId");
+
+                    b.HasIndex("OnCreated")
+                        .HasAnnotation("SqlServer:Clustered", true);
 
                     b.HasIndex("OrderId");
 
@@ -308,10 +318,10 @@ namespace Wallabe.Data.Migrations
                     b.ToTable("Games");
 
                     b.HasData(
-                        new { Id = "322173e1-9821-4026-a0c2-cecd97ea3f64", CraneId = "42ba9d7d-62ba-4958-87a7-1bef9df38674", OnCreated = new DateTime(2019, 8, 22, 12, 15, 0, 0, DateTimeKind.Local), OnUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), OrderId = "b3fb6608-5597-4cbf-8cd1-ba74399ee308", PlayerId = "c09c1133-242d-43f8-9ce6-afac824b88c0", State = 1, Status = 2 },
-                        new { Id = "cf04144b-846b-450c-8d5e-35c11a64acd3", CraneId = "ce7ea78e-56d6-49db-bb84-4165e3c958e9", OnCreated = new DateTime(2019, 8, 22, 12, 20, 0, 0, DateTimeKind.Local), OnUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), OrderId = "b3592c2e-6e78-4ebe-a494-ae00e5dbaeeb", PlayerId = "c09c1133-242d-43f8-9ce6-afac824b88c0", State = 2, Status = 2 },
-                        new { Id = "91763ee1-382c-43b6-bcff-0c7146400544", CraneId = "42ba9d7d-62ba-4958-87a7-1bef9df38674", OnCreated = new DateTime(2019, 8, 22, 12, 25, 0, 0, DateTimeKind.Local), OnUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), OrderId = "516dab55-308c-4741-af35-7733c316dbd2", PlayerId = "8558b62a-7e15-4083-b6d7-cd199839fd31", State = 2, Status = 2 },
-                        new { Id = "16259d75-2244-4bcc-b0e7-73a20d5d2243", CraneId = "ce7ea78e-56d6-49db-bb84-4165e3c958e9", OnCreated = new DateTime(2019, 8, 22, 12, 30, 0, 0, DateTimeKind.Local), OnUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), OrderId = "58b773a5-2bb7-4106-a510-d4ab8ac0bbad", PlayerId = "8558b62a-7e15-4083-b6d7-cd199839fd31", State = 1, Status = 2 }
+                        new { Id = "322173e1-9821-4026-a0c2-cecd97ea3f64", CraneId = "42ba9d7d-62ba-4958-87a7-1bef9df38674", OnCreated = new DateTime(2019, 8, 22, 12, 15, 0, 0, DateTimeKind.Local), OnUpdated = new DateTime(2019, 8, 22, 12, 18, 0, 0, DateTimeKind.Local), OrderId = "b3fb6608-5597-4cbf-8cd1-ba74399ee308", PlayerId = "c09c1133-242d-43f8-9ce6-afac824b88c0", State = 1, Status = 3 },
+                        new { Id = "cf04144b-846b-450c-8d5e-35c11a64acd3", CraneId = "ce7ea78e-56d6-49db-bb84-4165e3c958e9", OnCreated = new DateTime(2019, 8, 22, 12, 20, 0, 0, DateTimeKind.Local), OnUpdated = new DateTime(2019, 8, 22, 12, 23, 0, 0, DateTimeKind.Local), OrderId = "b3592c2e-6e78-4ebe-a494-ae00e5dbaeeb", PlayerId = "c09c1133-242d-43f8-9ce6-afac824b88c0", State = 2, Status = 3 },
+                        new { Id = "91763ee1-382c-43b6-bcff-0c7146400544", CraneId = "42ba9d7d-62ba-4958-87a7-1bef9df38674", OnCreated = new DateTime(2019, 8, 22, 12, 25, 0, 0, DateTimeKind.Local), OnUpdated = new DateTime(2019, 8, 22, 12, 28, 0, 0, DateTimeKind.Local), OrderId = "516dab55-308c-4741-af35-7733c316dbd2", PlayerId = "8558b62a-7e15-4083-b6d7-cd199839fd31", State = 2, Status = 3 },
+                        new { Id = "16259d75-2244-4bcc-b0e7-73a20d5d2243", CraneId = "ce7ea78e-56d6-49db-bb84-4165e3c958e9", OnCreated = new DateTime(2019, 8, 22, 12, 30, 0, 0, DateTimeKind.Local), OnUpdated = new DateTime(2019, 8, 22, 12, 33, 0, 0, DateTimeKind.Local), OrderId = "58b773a5-2bb7-4106-a510-d4ab8ac0bbad", PlayerId = "8558b62a-7e15-4083-b6d7-cd199839fd31", State = 1, Status = 3 }
                     );
                 });
 
@@ -321,9 +331,7 @@ namespace Wallabe.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<DateTime>("OnCreated")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("getdate()");
+                    b.Property<DateTime>("OnCreated");
 
                     b.Property<string>("PlayerId")
                         .IsRequired();
@@ -331,7 +339,11 @@ namespace Wallabe.Data.Migrations
                     b.Property<string>("ProductId")
                         .IsRequired();
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasAnnotation("SqlServer:Clustered", false);
+
+                    b.HasIndex("OnCreated")
+                        .HasAnnotation("SqlServer:Clustered", true);
 
                     b.HasIndex("PlayerId");
 
@@ -356,33 +368,39 @@ namespace Wallabe.Data.Migrations
                     b.Property<string>("GameId")
                         .IsRequired();
 
-                    b.Property<DateTime>("OnCreated")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("getdate()");
+                    b.Property<DateTime>("OnCreated");
 
                     b.Property<int>("State");
 
                     b.Property<int>("Status");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasAnnotation("SqlServer:Clustered", false);
 
                     b.HasIndex("GameId");
+
+                    b.HasIndex("OnCreated")
+                        .HasAnnotation("SqlServer:Clustered", true);
 
                     b.ToTable("Plays");
 
                     b.HasData(
                         new { Id = "aa7e7fa8-07df-4368-85b1-74f0dfde0ac0", GameId = "322173e1-9821-4026-a0c2-cecd97ea3f64", OnCreated = new DateTime(2019, 8, 22, 12, 31, 0, 0, DateTimeKind.Local), State = 0, Status = 0 },
                         new { Id = "e835a48a-f0e9-4a83-96ae-886d7cb6fb48", GameId = "322173e1-9821-4026-a0c2-cecd97ea3f64", OnCreated = new DateTime(2019, 8, 22, 12, 32, 0, 0, DateTimeKind.Local), State = 0, Status = 1 },
-                        new { Id = "119355fd-dc13-45fe-a5bb-122f727c58b3", GameId = "322173e1-9821-4026-a0c2-cecd97ea3f64", OnCreated = new DateTime(2019, 8, 22, 12, 33, 0, 0, DateTimeKind.Local), State = 1, Status = 2 },
-                        new { Id = "f8449d35-6217-4c27-8eef-9dabda971081", GameId = "cf04144b-846b-450c-8d5e-35c11a64acd3", OnCreated = new DateTime(2019, 8, 22, 12, 34, 0, 0, DateTimeKind.Local), State = 0, Status = 0 },
-                        new { Id = "93e46c07-3261-466c-91de-4423166d9227", GameId = "cf04144b-846b-450c-8d5e-35c11a64acd3", OnCreated = new DateTime(2019, 8, 22, 12, 35, 0, 0, DateTimeKind.Local), State = 0, Status = 1 },
-                        new { Id = "2fc59b99-891d-4aa3-ada5-132414094e0d", GameId = "cf04144b-846b-450c-8d5e-35c11a64acd3", OnCreated = new DateTime(2019, 8, 22, 12, 36, 0, 0, DateTimeKind.Local), State = 2, Status = 2 },
-                        new { Id = "0a4cc44f-d7e9-41df-9ae7-f2930afb3134", GameId = "91763ee1-382c-43b6-bcff-0c7146400544", OnCreated = new DateTime(2019, 8, 22, 12, 37, 0, 0, DateTimeKind.Local), State = 0, Status = 0 },
-                        new { Id = "b763531b-fb5e-4e87-9c78-c7b8f4fcad7e", GameId = "91763ee1-382c-43b6-bcff-0c7146400544", OnCreated = new DateTime(2019, 8, 22, 12, 38, 0, 0, DateTimeKind.Local), State = 0, Status = 1 },
-                        new { Id = "2b187756-fadb-4b2a-85d3-30c5219c78a5", GameId = "91763ee1-382c-43b6-bcff-0c7146400544", OnCreated = new DateTime(2019, 8, 22, 12, 39, 0, 0, DateTimeKind.Local), State = 2, Status = 2 },
-                        new { Id = "c6d31ffa-8e26-41d9-8347-3322c1c4ca27", GameId = "16259d75-2244-4bcc-b0e7-73a20d5d2243", OnCreated = new DateTime(2019, 8, 22, 12, 40, 0, 0, DateTimeKind.Local), State = 0, Status = 0 },
-                        new { Id = "1f1e4209-d122-473d-adbf-ef4b70dc233a", GameId = "16259d75-2244-4bcc-b0e7-73a20d5d2243", OnCreated = new DateTime(2019, 8, 22, 12, 41, 0, 0, DateTimeKind.Local), State = 0, Status = 1 },
-                        new { Id = "d9b0e57a-40af-420f-8989-ebed4b8b8ec1", GameId = "16259d75-2244-4bcc-b0e7-73a20d5d2243", OnCreated = new DateTime(2019, 8, 22, 12, 42, 0, 0, DateTimeKind.Local), State = 1, Status = 2 }
+                        new { Id = "a6086df8-6f77-4b66-8568-a7e2ce0aec14", GameId = "322173e1-9821-4026-a0c2-cecd97ea3f64", OnCreated = new DateTime(2019, 8, 22, 12, 33, 0, 0, DateTimeKind.Local), State = 0, Status = 2 },
+                        new { Id = "119355fd-dc13-45fe-a5bb-122f727c58b3", GameId = "322173e1-9821-4026-a0c2-cecd97ea3f64", OnCreated = new DateTime(2019, 8, 22, 12, 34, 0, 0, DateTimeKind.Local), State = 1, Status = 3 },
+                        new { Id = "f8449d35-6217-4c27-8eef-9dabda971081", GameId = "cf04144b-846b-450c-8d5e-35c11a64acd3", OnCreated = new DateTime(2019, 8, 22, 12, 35, 0, 0, DateTimeKind.Local), State = 0, Status = 0 },
+                        new { Id = "56305dd8-5421-4a7e-82f6-714963768f94", GameId = "cf04144b-846b-450c-8d5e-35c11a64acd3", OnCreated = new DateTime(2019, 8, 22, 12, 36, 0, 0, DateTimeKind.Local), State = 0, Status = 1 },
+                        new { Id = "93e46c07-3261-466c-91de-4423166d9227", GameId = "cf04144b-846b-450c-8d5e-35c11a64acd3", OnCreated = new DateTime(2019, 8, 22, 12, 37, 0, 0, DateTimeKind.Local), State = 0, Status = 2 },
+                        new { Id = "2fc59b99-891d-4aa3-ada5-132414094e0d", GameId = "cf04144b-846b-450c-8d5e-35c11a64acd3", OnCreated = new DateTime(2019, 8, 22, 12, 38, 0, 0, DateTimeKind.Local), State = 2, Status = 3 },
+                        new { Id = "0a4cc44f-d7e9-41df-9ae7-f2930afb3134", GameId = "91763ee1-382c-43b6-bcff-0c7146400544", OnCreated = new DateTime(2019, 8, 22, 12, 39, 0, 0, DateTimeKind.Local), State = 0, Status = 0 },
+                        new { Id = "b763531b-fb5e-4e87-9c78-c7b8f4fcad7e", GameId = "91763ee1-382c-43b6-bcff-0c7146400544", OnCreated = new DateTime(2019, 8, 22, 12, 40, 0, 0, DateTimeKind.Local), State = 0, Status = 1 },
+                        new { Id = "01f4bdbf-bebe-4d64-ba4d-b52bba2e9768", GameId = "91763ee1-382c-43b6-bcff-0c7146400544", OnCreated = new DateTime(2019, 8, 22, 12, 41, 0, 0, DateTimeKind.Local), State = 0, Status = 2 },
+                        new { Id = "2b187756-fadb-4b2a-85d3-30c5219c78a5", GameId = "91763ee1-382c-43b6-bcff-0c7146400544", OnCreated = new DateTime(2019, 8, 22, 12, 42, 0, 0, DateTimeKind.Local), State = 2, Status = 3 },
+                        new { Id = "c6d31ffa-8e26-41d9-8347-3322c1c4ca27", GameId = "16259d75-2244-4bcc-b0e7-73a20d5d2243", OnCreated = new DateTime(2019, 8, 22, 12, 43, 0, 0, DateTimeKind.Local), State = 0, Status = 0 },
+                        new { Id = "e93c2269-1a48-4913-99c3-6d666f495b19", GameId = "16259d75-2244-4bcc-b0e7-73a20d5d2243", OnCreated = new DateTime(2019, 8, 22, 12, 44, 0, 0, DateTimeKind.Local), State = 0, Status = 1 },
+                        new { Id = "1f1e4209-d122-473d-adbf-ef4b70dc233a", GameId = "16259d75-2244-4bcc-b0e7-73a20d5d2243", OnCreated = new DateTime(2019, 8, 22, 12, 45, 0, 0, DateTimeKind.Local), State = 0, Status = 2 },
+                        new { Id = "d9b0e57a-40af-420f-8989-ebed4b8b8ec1", GameId = "16259d75-2244-4bcc-b0e7-73a20d5d2243", OnCreated = new DateTime(2019, 8, 22, 12, 46, 0, 0, DateTimeKind.Local), State = 1, Status = 3 }
                     );
                 });
 
@@ -401,13 +419,20 @@ namespace Wallabe.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(32)");
 
-                    b.HasKey("Id");
+                    b.Property<DateTime>("OnCreated");
+
+                    b.HasKey("Id")
+                        .HasAnnotation("SqlServer:Clustered", false);
+
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasAnnotation("SqlServer:Clustered", true);
 
                     b.ToTable("Players");
 
                     b.HasData(
-                        new { Id = "c09c1133-242d-43f8-9ce6-afac824b88c0", Cash = 100000000, ImagePath = "748960dc-70cd-4d9d-a470-3f9445d89183", Name = "이니" },
-                        new { Id = "8558b62a-7e15-4083-b6d7-cd199839fd31", Cash = 100000000, ImagePath = "248528e4-f59e-445e-9899-6c8d465c5479", Name = "혀니" }
+                        new { Id = "c09c1133-242d-43f8-9ce6-afac824b88c0", Cash = 100000000, ImagePath = "748960dc-70cd-4d9d-a470-3f9445d89183", Name = "이니", OnCreated = new DateTime(2019, 8, 22, 12, 0, 0, 0, DateTimeKind.Local) },
+                        new { Id = "8558b62a-7e15-4083-b6d7-cd199839fd31", Cash = 100000000, ImagePath = "248528e4-f59e-445e-9899-6c8d465c5479", Name = "혀니", OnCreated = new DateTime(2019, 8, 22, 12, 1, 0, 0, DateTimeKind.Local) }
                     );
                 });
 
@@ -422,29 +447,33 @@ namespace Wallabe.Data.Migrations
                     b.Property<string>("CraneId")
                         .IsRequired();
 
-                    b.Property<DateTime>("OnCreated")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("getdate()");
+                    b.Property<string>("Name");
+
+                    b.Property<DateTime>("OnCreated");
 
                     b.Property<int>("Quantity");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasAnnotation("SqlServer:Clustered", false);
 
                     b.HasIndex("CraneId");
+
+                    b.HasIndex("OnCreated")
+                        .HasAnnotation("SqlServer:Clustered", true);
 
                     b.ToTable("Products");
 
                     b.HasData(
-                        new { Id = "b9fe5e69-cc69-4354-b0ff-557c54392a21", Cash = 1000, CraneId = "42ba9d7d-62ba-4958-87a7-1bef9df38674", OnCreated = new DateTime(2019, 8, 22, 12, 1, 0, 0, DateTimeKind.Local), Quantity = 1 },
-                        new { Id = "d25830d7-1523-487e-86ea-bdb9ce224d59", Cash = 2000, CraneId = "42ba9d7d-62ba-4958-87a7-1bef9df38674", OnCreated = new DateTime(2019, 8, 22, 12, 1, 0, 0, DateTimeKind.Local), Quantity = 2 },
-                        new { Id = "d17babcb-ab39-4fd9-9f2e-8ae4529e92a0", Cash = 3000, CraneId = "42ba9d7d-62ba-4958-87a7-1bef9df38674", OnCreated = new DateTime(2019, 8, 22, 12, 3, 0, 0, DateTimeKind.Local), Quantity = 3 },
-                        new { Id = "b59a1e20-f31e-4d0f-a72e-489013ce7170", Cash = 4000, CraneId = "42ba9d7d-62ba-4958-87a7-1bef9df38674", OnCreated = new DateTime(2019, 8, 22, 12, 4, 0, 0, DateTimeKind.Local), Quantity = 4 },
-                        new { Id = "efdf197e-cd23-4b44-9cbe-caac4809309d", Cash = 5000, CraneId = "42ba9d7d-62ba-4958-87a7-1bef9df38674", OnCreated = new DateTime(2019, 8, 22, 12, 5, 0, 0, DateTimeKind.Local), Quantity = 5 },
-                        new { Id = "d57567b0-cb03-4410-a517-383ca9880904", Cash = 1000, CraneId = "ce7ea78e-56d6-49db-bb84-4165e3c958e9", OnCreated = new DateTime(2019, 8, 22, 12, 6, 0, 0, DateTimeKind.Local), Quantity = 1 },
-                        new { Id = "46aeb3db-80ab-437d-9b34-4e553633461e", Cash = 2000, CraneId = "ce7ea78e-56d6-49db-bb84-4165e3c958e9", OnCreated = new DateTime(2019, 8, 22, 12, 7, 0, 0, DateTimeKind.Local), Quantity = 2 },
-                        new { Id = "c7c8de70-b9c1-4df0-8520-340c16e1f585", Cash = 3000, CraneId = "ce7ea78e-56d6-49db-bb84-4165e3c958e9", OnCreated = new DateTime(2019, 8, 22, 12, 8, 0, 0, DateTimeKind.Local), Quantity = 3 },
-                        new { Id = "f1afa3d7-4df8-4766-92be-e522110f7dae", Cash = 4000, CraneId = "ce7ea78e-56d6-49db-bb84-4165e3c958e9", OnCreated = new DateTime(2019, 8, 22, 12, 9, 0, 0, DateTimeKind.Local), Quantity = 4 },
-                        new { Id = "7da6f8d6-eb6a-4466-8b1b-cb7d470d88b8", Cash = 5000, CraneId = "ce7ea78e-56d6-49db-bb84-4165e3c958e9", OnCreated = new DateTime(2019, 8, 22, 12, 10, 0, 0, DateTimeKind.Local), Quantity = 5 }
+                        new { Id = "b9fe5e69-cc69-4354-b0ff-557c54392a21", Cash = 1000, CraneId = "42ba9d7d-62ba-4958-87a7-1bef9df38674", Name = "원피스 X1", OnCreated = new DateTime(2019, 8, 22, 12, 1, 0, 0, DateTimeKind.Local), Quantity = 1 },
+                        new { Id = "d25830d7-1523-487e-86ea-bdb9ce224d59", Cash = 2000, CraneId = "42ba9d7d-62ba-4958-87a7-1bef9df38674", Name = "원피스 x2", OnCreated = new DateTime(2019, 8, 22, 12, 1, 0, 0, DateTimeKind.Local), Quantity = 2 },
+                        new { Id = "d17babcb-ab39-4fd9-9f2e-8ae4529e92a0", Cash = 3000, CraneId = "42ba9d7d-62ba-4958-87a7-1bef9df38674", Name = "원피스 x3", OnCreated = new DateTime(2019, 8, 22, 12, 3, 0, 0, DateTimeKind.Local), Quantity = 3 },
+                        new { Id = "b59a1e20-f31e-4d0f-a72e-489013ce7170", Cash = 4000, CraneId = "42ba9d7d-62ba-4958-87a7-1bef9df38674", Name = "원피스 x4", OnCreated = new DateTime(2019, 8, 22, 12, 4, 0, 0, DateTimeKind.Local), Quantity = 4 },
+                        new { Id = "efdf197e-cd23-4b44-9cbe-caac4809309d", Cash = 5000, CraneId = "42ba9d7d-62ba-4958-87a7-1bef9df38674", Name = "원피스 x5", OnCreated = new DateTime(2019, 8, 22, 12, 5, 0, 0, DateTimeKind.Local), Quantity = 5 },
+                        new { Id = "d57567b0-cb03-4410-a517-383ca9880904", Cash = 1000, CraneId = "ce7ea78e-56d6-49db-bb84-4165e3c958e9", Name = "피카츄 x1", OnCreated = new DateTime(2019, 8, 22, 12, 6, 0, 0, DateTimeKind.Local), Quantity = 1 },
+                        new { Id = "46aeb3db-80ab-437d-9b34-4e553633461e", Cash = 2000, CraneId = "ce7ea78e-56d6-49db-bb84-4165e3c958e9", Name = "피카츄 x2", OnCreated = new DateTime(2019, 8, 22, 12, 7, 0, 0, DateTimeKind.Local), Quantity = 2 },
+                        new { Id = "c7c8de70-b9c1-4df0-8520-340c16e1f585", Cash = 3000, CraneId = "ce7ea78e-56d6-49db-bb84-4165e3c958e9", Name = "피카츄 x3", OnCreated = new DateTime(2019, 8, 22, 12, 8, 0, 0, DateTimeKind.Local), Quantity = 3 },
+                        new { Id = "f1afa3d7-4df8-4766-92be-e522110f7dae", Cash = 4000, CraneId = "ce7ea78e-56d6-49db-bb84-4165e3c958e9", Name = "피카츄 x4", OnCreated = new DateTime(2019, 8, 22, 12, 9, 0, 0, DateTimeKind.Local), Quantity = 4 },
+                        new { Id = "7da6f8d6-eb6a-4466-8b1b-cb7d470d88b8", Cash = 5000, CraneId = "ce7ea78e-56d6-49db-bb84-4165e3c958e9", Name = "피카츄 x5", OnCreated = new DateTime(2019, 8, 22, 12, 10, 0, 0, DateTimeKind.Local), Quantity = 5 }
                     );
                 });
 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Wallabe.Models;
 
-namespace Wallabe.Service
+namespace Wallabe.Business
 {
     public interface IRankService
     {
