@@ -3,14 +3,21 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <UserSecretsId>aspnet-Wallabe-95AF55F4-880A-4112-AA89-CE74D36BAF2C</UserSecretsId>
+    <ApplicationInsightsResourceId>/subscriptions/432622d9-481a-4746-acaa-23c5e84a62aa/resourcegroups/Wallabe/providers/microsoft.insights/components/Wallabe</ApplicationInsightsResourceId>
+    <ApplicationInsightsAnnotationResourceId>/subscriptions/432622d9-481a-4746-acaa-23c5e84a62aa/resourcegroups/Wallabe/providers/microsoft.insights/components/Wallabe</ApplicationInsightsAnnotationResourceId>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.7.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" />
     <PackageReference Include="NSwag.AspNetCore" Version="13.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services" />
   </ItemGroup>
 
 </Project>

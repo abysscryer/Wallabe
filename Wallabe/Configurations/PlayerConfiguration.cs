@@ -26,6 +26,10 @@ namespace Wallabe.Configurations
                 .IsRequired();
 
             builder
+                .Property(x => x.Cash)
+                .HasColumnType("decimal(38, 18)");
+
+            builder
                 .Property(player => player.ImagePath)
                 .HasColumnType("varchar(256)");
 

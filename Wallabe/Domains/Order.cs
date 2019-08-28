@@ -25,5 +25,7 @@ namespace Wallabe.Domains
         public virtual Product Product { get; set; }
 
         public virtual ICollection<Game> Games { get; private set; }
+
+        public virtual Payment Payment { get; set; }
     }
 }

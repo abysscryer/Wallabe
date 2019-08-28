@@ -89,6 +89,28 @@ namespace Wallabe.Service
             return items;
         }
 
+        public IEnumerable<GameViewModel> ListReadyByCraneId(string craneId)
+        {
+            var items = _context.Games
+                .Where(x => x.CraneId == craneId && x.State == PlayState.Ready)
+                .OrderBy(x => x.OnCreated)
+                .Select(x => new GameViewModel
+                {
+                    Id = x.Id,
+                    OrderId = x.OrderId,
+                    PlayerName = x.Player.Name,
+                    CraneId = x.CraneId,
+                    CraneName = x.Crane.Name,
+                    Status = x.Status,
+                    State = x.State,
+                    OnCreated = x.OnCreated,
+                    OnUpdated = x.OnUpdated
+                })
+                .ToList();
+
+            return items;
+        }
+
         public IEnumerable<GameViewModel> ListByPlayerId(string playerId)
         {
             var items = _context.Games

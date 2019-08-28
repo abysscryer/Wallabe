@@ -32,7 +32,7 @@ namespace Wallabe.Service
                     Id = x.Id,
                     Name = x.Name,
                     Quantity = x.Quantity,
-                    Cash = x.Cash,
+                    Price = x.Price,
                     OnCreated = x.OnCreated,
                     CraneId = x.CraneId,
                     CraneName = x.Crane.Name
@@ -53,7 +53,7 @@ namespace Wallabe.Service
                     Id = x.Id,
                     Name = x.Name,
                     Quantity = x.Quantity,
-                    Cash = x.Cash,
+                    Price = x.Price,
                     OnCreated = x.OnCreated,
                     CraneId = x.CraneId,
                     CraneName = x.Crane.Name

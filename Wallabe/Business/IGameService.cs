@@ -16,6 +16,8 @@ namespace Wallabe.Business
 
         IEnumerable<GameViewModel> ListByCraneId(string craneId);
 
+        IEnumerable<GameViewModel> ListReadyByCraneId(string craneId);
+
 
     }
 }

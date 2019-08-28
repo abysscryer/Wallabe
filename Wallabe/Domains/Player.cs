@@ -22,7 +22,7 @@ namespace Wallabe.Domains
         /// </summary>
         public string ImagePath { get; set; }
 
-        public int Cash { get; set; }
+        public decimal Cash { get; set; }
 
         public DateTime OnCreated { get; set; }
 
@@ -31,6 +31,7 @@ namespace Wallabe.Domains
         public virtual ICollection<Record> Records { get; set; }
 
         public virtual ICollection<CraneRecord> CraneRecords { get; set; }
+
         public virtual ICollection<Order> Orders { get; set; }
     }
 }

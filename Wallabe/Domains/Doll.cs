@@ -20,5 +20,7 @@ namespace Wallabe.Domains
         public string CraneId { get; set; }
 
         public virtual Crane Crane { get; set; }
+
+        public virtual ICollection<Exchange> Exchanges { get; set; }
     }
 }

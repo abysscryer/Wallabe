@@ -57,7 +57,9 @@ namespace Wallabe
 
             services.AddScoped<ICraneService, CraneService>();
             services.AddScoped<IDollService, DollService>();
-            
+
+            services.AddScoped<IPlayerService, PlayerService>();
+
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IGameService, GameService>();

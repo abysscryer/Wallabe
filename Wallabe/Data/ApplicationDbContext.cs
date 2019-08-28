@@ -31,7 +31,15 @@ namespace Wallabe.Data
 
         public DbSet<Order> Orders { get; set; }
         
+        public DbSet<Transaction> Transactions { get; set; }
 
+        public DbSet<Deposit> Deposits { get; set; }
+
+        public DbSet<Exchange> Exchanges { get; set; }
+
+        public DbSet<Payment> Payments { get; set; }
+
+        public DbSet<Withdraw> Withdraws { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -47,6 +55,12 @@ namespace Wallabe.Data
             builder.ApplyConfiguration(new PlayerConfiguration());
             builder.ApplyConfiguration(new GameConfiguration());
             builder.ApplyConfiguration(new PlayConfiguration());
+
+            builder.ApplyConfiguration(new TransactionConfiguration());
+            builder.ApplyConfiguration(new DepositConfiguration());
+            builder.ApplyConfiguration(new ExchangeConfiguration());
+            builder.ApplyConfiguration(new PaymentConfiguration());
+            builder.ApplyConfiguration(new WithdrawConfiguration());
 
             builder.Seed();
 

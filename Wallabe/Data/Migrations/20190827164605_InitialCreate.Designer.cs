@@ -10,7 +10,7 @@ using Wallabe.Data;
 namespace Wallabe.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190824151017_InitialCreate")]
+    [Migration("20190827164605_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -192,6 +192,12 @@ namespace Wallabe.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(512)");
+
+                    b.Property<string>("Icon")
+                        .HasColumnType("nvarchar(256)");
+
                     b.Property<string>("ImagePath")
                         .HasColumnType("varchar(256)");
 
@@ -202,6 +208,9 @@ namespace Wallabe.Data.Migrations
                     b.Property<DateTime>("OnCreated");
 
                     b.Property<int>("Status");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(128)");
 
                     b.HasKey("Id")
                         .HasAnnotation("SqlServer:Clustered", false);
@@ -245,6 +254,20 @@ namespace Wallabe.Data.Migrations
                     b.ToTable("CraneRecords");
                 });
 
+            modelBuilder.Entity("Wallabe.Domains.Deposit", b =>
+                {
+                    b.Property<string>("TransactionId");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(38, 18)");
+
+                    b.Property<int>("Type");
+
+                    b.HasKey("TransactionId");
+
+                    b.ToTable("Deposits");
+                });
+
             modelBuilder.Entity("Wallabe.Domains.Doll", b =>
                 {
                     b.Property<string>("Id")
@@ -282,24 +305,35 @@ namespace Wallabe.Data.Migrations
                     );
                 });
 
+            modelBuilder.Entity("Wallabe.Domains.Exchange", b =>
+                {
+                    b.Property<string>("TransactionId");
+
+                    b.Property<string>("DollId")
+                        .IsRequired();
+
+                    b.HasKey("TransactionId");
+
+                    b.HasIndex("DollId");
+
+                    b.ToTable("Exchanges");
+                });
+
             modelBuilder.Entity("Wallabe.Domains.Game", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<string>("CraneId")
-                        .IsRequired();
+                    b.Property<string>("CraneId");
 
                     b.Property<DateTime>("OnCreated");
 
                     b.Property<DateTime>("OnUpdated");
 
-                    b.Property<string>("OrderId")
-                        .IsRequired();
+                    b.Property<string>("OrderId");
 
-                    b.Property<string>("PlayerId")
-                        .IsRequired();
+                    b.Property<string>("PlayerId");
 
                     b.Property<int>("State");
 
@@ -361,6 +395,21 @@ namespace Wallabe.Data.Migrations
                     );
                 });
 
+            modelBuilder.Entity("Wallabe.Domains.Payment", b =>
+                {
+                    b.Property<string>("TransactionId");
+
+                    b.Property<string>("OrderId")
+                        .IsRequired();
+
+                    b.HasKey("TransactionId");
+
+                    b.HasIndex("OrderId")
+                        .IsUnique();
+
+                    b.ToTable("Payments");
+                });
+
             modelBuilder.Entity("Wallabe.Domains.Play", b =>
                 {
                     b.Property<string>("Id")
@@ -412,7 +461,8 @@ namespace Wallabe.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<int>("Cash");
+                    b.Property<decimal>("Cash")
+                        .HasColumnType("decimal(38, 18)");
 
                     b.Property<string>("ImagePath")
                         .HasColumnType("varchar(256)");
@@ -433,8 +483,8 @@ namespace Wallabe.Data.Migrations
                     b.ToTable("Players");
 
                     b.HasData(
-                        new { Id = "c09c1133-242d-43f8-9ce6-afac824b88c0", Cash = 100000000, ImagePath = "748960dc-70cd-4d9d-a470-3f9445d89183", Name = "이니", OnCreated = new DateTime(2019, 8, 22, 12, 0, 0, 0, DateTimeKind.Local) },
-                        new { Id = "8558b62a-7e15-4083-b6d7-cd199839fd31", Cash = 100000000, ImagePath = "248528e4-f59e-445e-9899-6c8d465c5479", Name = "혀니", OnCreated = new DateTime(2019, 8, 22, 12, 1, 0, 0, DateTimeKind.Local) }
+                        new { Id = "c09c1133-242d-43f8-9ce6-afac824b88c0", Cash = 100000000m, ImagePath = "748960dc-70cd-4d9d-a470-3f9445d89183", Name = "이니", OnCreated = new DateTime(2019, 8, 22, 12, 0, 0, 0, DateTimeKind.Local) },
+                        new { Id = "8558b62a-7e15-4083-b6d7-cd199839fd31", Cash = 100000000m, ImagePath = "248528e4-f59e-445e-9899-6c8d465c5479", Name = "혀니", OnCreated = new DateTime(2019, 8, 22, 12, 1, 0, 0, DateTimeKind.Local) }
                     );
                 });
 
@@ -444,14 +494,14 @@ namespace Wallabe.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<int>("Cash");
-
                     b.Property<string>("CraneId")
                         .IsRequired();
 
                     b.Property<string>("Name");
 
                     b.Property<DateTime>("OnCreated");
+
+                    b.Property<int>("Price");
 
                     b.Property<int>("Quantity");
 
@@ -466,16 +516,16 @@ namespace Wallabe.Data.Migrations
                     b.ToTable("Products");
 
                     b.HasData(
-                        new { Id = "b9fe5e69-cc69-4354-b0ff-557c54392a21", Cash = 1000, CraneId = "42ba9d7d-62ba-4958-87a7-1bef9df38674", Name = "원피스 X1", OnCreated = new DateTime(2019, 8, 22, 12, 1, 0, 0, DateTimeKind.Local), Quantity = 1 },
-                        new { Id = "d25830d7-1523-487e-86ea-bdb9ce224d59", Cash = 2000, CraneId = "42ba9d7d-62ba-4958-87a7-1bef9df38674", Name = "원피스 x2", OnCreated = new DateTime(2019, 8, 22, 12, 1, 0, 0, DateTimeKind.Local), Quantity = 2 },
-                        new { Id = "d17babcb-ab39-4fd9-9f2e-8ae4529e92a0", Cash = 3000, CraneId = "42ba9d7d-62ba-4958-87a7-1bef9df38674", Name = "원피스 x3", OnCreated = new DateTime(2019, 8, 22, 12, 3, 0, 0, DateTimeKind.Local), Quantity = 3 },
-                        new { Id = "b59a1e20-f31e-4d0f-a72e-489013ce7170", Cash = 4000, CraneId = "42ba9d7d-62ba-4958-87a7-1bef9df38674", Name = "원피스 x4", OnCreated = new DateTime(2019, 8, 22, 12, 4, 0, 0, DateTimeKind.Local), Quantity = 4 },
-                        new { Id = "efdf197e-cd23-4b44-9cbe-caac4809309d", Cash = 5000, CraneId = "42ba9d7d-62ba-4958-87a7-1bef9df38674", Name = "원피스 x5", OnCreated = new DateTime(2019, 8, 22, 12, 5, 0, 0, DateTimeKind.Local), Quantity = 5 },
-                        new { Id = "d57567b0-cb03-4410-a517-383ca9880904", Cash = 1000, CraneId = "ce7ea78e-56d6-49db-bb84-4165e3c958e9", Name = "피카츄 x1", OnCreated = new DateTime(2019, 8, 22, 12, 6, 0, 0, DateTimeKind.Local), Quantity = 1 },
-                        new { Id = "46aeb3db-80ab-437d-9b34-4e553633461e", Cash = 2000, CraneId = "ce7ea78e-56d6-49db-bb84-4165e3c958e9", Name = "피카츄 x2", OnCreated = new DateTime(2019, 8, 22, 12, 7, 0, 0, DateTimeKind.Local), Quantity = 2 },
-                        new { Id = "c7c8de70-b9c1-4df0-8520-340c16e1f585", Cash = 3000, CraneId = "ce7ea78e-56d6-49db-bb84-4165e3c958e9", Name = "피카츄 x3", OnCreated = new DateTime(2019, 8, 22, 12, 8, 0, 0, DateTimeKind.Local), Quantity = 3 },
-                        new { Id = "f1afa3d7-4df8-4766-92be-e522110f7dae", Cash = 4000, CraneId = "ce7ea78e-56d6-49db-bb84-4165e3c958e9", Name = "피카츄 x4", OnCreated = new DateTime(2019, 8, 22, 12, 9, 0, 0, DateTimeKind.Local), Quantity = 4 },
-                        new { Id = "7da6f8d6-eb6a-4466-8b1b-cb7d470d88b8", Cash = 5000, CraneId = "ce7ea78e-56d6-49db-bb84-4165e3c958e9", Name = "피카츄 x5", OnCreated = new DateTime(2019, 8, 22, 12, 10, 0, 0, DateTimeKind.Local), Quantity = 5 }
+                        new { Id = "b9fe5e69-cc69-4354-b0ff-557c54392a21", CraneId = "42ba9d7d-62ba-4958-87a7-1bef9df38674", Name = "원피스 X1", OnCreated = new DateTime(2019, 8, 22, 12, 1, 0, 0, DateTimeKind.Local), Price = 1000, Quantity = 1 },
+                        new { Id = "d25830d7-1523-487e-86ea-bdb9ce224d59", CraneId = "42ba9d7d-62ba-4958-87a7-1bef9df38674", Name = "원피스 x2", OnCreated = new DateTime(2019, 8, 22, 12, 1, 0, 0, DateTimeKind.Local), Price = 2000, Quantity = 2 },
+                        new { Id = "d17babcb-ab39-4fd9-9f2e-8ae4529e92a0", CraneId = "42ba9d7d-62ba-4958-87a7-1bef9df38674", Name = "원피스 x3", OnCreated = new DateTime(2019, 8, 22, 12, 3, 0, 0, DateTimeKind.Local), Price = 3000, Quantity = 3 },
+                        new { Id = "b59a1e20-f31e-4d0f-a72e-489013ce7170", CraneId = "42ba9d7d-62ba-4958-87a7-1bef9df38674", Name = "원피스 x4", OnCreated = new DateTime(2019, 8, 22, 12, 4, 0, 0, DateTimeKind.Local), Price = 4000, Quantity = 4 },
+                        new { Id = "efdf197e-cd23-4b44-9cbe-caac4809309d", CraneId = "42ba9d7d-62ba-4958-87a7-1bef9df38674", Name = "원피스 x5", OnCreated = new DateTime(2019, 8, 22, 12, 5, 0, 0, DateTimeKind.Local), Price = 5000, Quantity = 5 },
+                        new { Id = "d57567b0-cb03-4410-a517-383ca9880904", CraneId = "ce7ea78e-56d6-49db-bb84-4165e3c958e9", Name = "피카츄 x1", OnCreated = new DateTime(2019, 8, 22, 12, 6, 0, 0, DateTimeKind.Local), Price = 1000, Quantity = 1 },
+                        new { Id = "46aeb3db-80ab-437d-9b34-4e553633461e", CraneId = "ce7ea78e-56d6-49db-bb84-4165e3c958e9", Name = "피카츄 x2", OnCreated = new DateTime(2019, 8, 22, 12, 7, 0, 0, DateTimeKind.Local), Price = 2000, Quantity = 2 },
+                        new { Id = "c7c8de70-b9c1-4df0-8520-340c16e1f585", CraneId = "ce7ea78e-56d6-49db-bb84-4165e3c958e9", Name = "피카츄 x3", OnCreated = new DateTime(2019, 8, 22, 12, 8, 0, 0, DateTimeKind.Local), Price = 3000, Quantity = 3 },
+                        new { Id = "f1afa3d7-4df8-4766-92be-e522110f7dae", CraneId = "ce7ea78e-56d6-49db-bb84-4165e3c958e9", Name = "피카츄 x4", OnCreated = new DateTime(2019, 8, 22, 12, 9, 0, 0, DateTimeKind.Local), Price = 4000, Quantity = 4 },
+                        new { Id = "7da6f8d6-eb6a-4466-8b1b-cb7d470d88b8", CraneId = "ce7ea78e-56d6-49db-bb84-4165e3c958e9", Name = "피카츄 x5", OnCreated = new DateTime(2019, 8, 22, 12, 10, 0, 0, DateTimeKind.Local), Price = 5000, Quantity = 5 }
                     );
                 });
 
@@ -501,6 +551,76 @@ namespace Wallabe.Data.Migrations
                     b.HasIndex("PlayerId");
 
                     b.ToTable("Records");
+                });
+
+            modelBuilder.Entity("Wallabe.Domains.Transaction", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<decimal>("AfterAmount")
+                        .HasColumnType("decimal(38, 18)");
+
+                    b.Property<decimal>("ApplyAmount")
+                        .HasColumnType("decimal(38, 18)");
+
+                    b.Property<decimal>("BeforeAmount")
+                        .HasColumnType("decimal(38, 18)");
+
+                    b.Property<DateTime>("OnCreated");
+
+                    b.Property<string>("PlayerId");
+
+                    b.Property<int>("Type");
+
+                    b.HasKey("Id")
+                        .HasAnnotation("SqlServer:Clustered", false);
+
+                    b.HasIndex("OnCreated")
+                        .HasAnnotation("SqlServer:Clustered", true);
+
+                    b.ToTable("Transactions");
+                });
+
+            modelBuilder.Entity("Wallabe.Domains.Withdraw", b =>
+                {
+                    b.Property<string>("TransactionId");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(38, 18)");
+
+                    b.Property<DateTime>("OnUpdated");
+
+                    b.Property<int>("State");
+
+                    b.Property<int>("Status");
+
+                    b.Property<int>("Type");
+
+                    b.HasKey("TransactionId");
+
+                    b.ToTable("Withdraws");
+                });
+
+            modelBuilder.Entity("Wallabe.Domains.WithdrawLog", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("OnCreated");
+
+                    b.Property<int>("State");
+
+                    b.Property<int>("Status");
+
+                    b.Property<string>("WithdrawId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WithdrawId");
+
+                    b.ToTable("WithdrawLog");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -561,11 +681,32 @@ namespace Wallabe.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("Wallabe.Domains.Deposit", b =>
+                {
+                    b.HasOne("Wallabe.Domains.Transaction", "Transaction")
+                        .WithOne("Deposit")
+                        .HasForeignKey("Wallabe.Domains.Deposit", "TransactionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("Wallabe.Domains.Doll", b =>
                 {
                     b.HasOne("Wallabe.Domains.Crane", "Crane")
                         .WithMany("Dolls")
                         .HasForeignKey("CraneId");
+                });
+
+            modelBuilder.Entity("Wallabe.Domains.Exchange", b =>
+                {
+                    b.HasOne("Wallabe.Domains.Doll", "Doll")
+                        .WithMany("Exchanges")
+                        .HasForeignKey("DollId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Wallabe.Domains.Transaction", "Transaction")
+                        .WithOne("Exchange")
+                        .HasForeignKey("Wallabe.Domains.Exchange", "TransactionId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Wallabe.Domains.Game", b =>
@@ -599,6 +740,19 @@ namespace Wallabe.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("Wallabe.Domains.Payment", b =>
+                {
+                    b.HasOne("Wallabe.Domains.Order", "Order")
+                        .WithOne("Payment")
+                        .HasForeignKey("Wallabe.Domains.Payment", "OrderId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Wallabe.Domains.Transaction", "Transaction")
+                        .WithOne("Payment")
+                        .HasForeignKey("Wallabe.Domains.Payment", "TransactionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("Wallabe.Domains.Play", b =>
                 {
                     b.HasOne("Wallabe.Domains.Game", "Game")
@@ -621,6 +775,21 @@ namespace Wallabe.Data.Migrations
                         .WithMany("Records")
                         .HasForeignKey("PlayerId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Wallabe.Domains.Withdraw", b =>
+                {
+                    b.HasOne("Wallabe.Domains.Transaction", "Transaction")
+                        .WithOne("Withdraw")
+                        .HasForeignKey("Wallabe.Domains.Withdraw", "TransactionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Wallabe.Domains.WithdrawLog", b =>
+                {
+                    b.HasOne("Wallabe.Domains.Withdraw", "Withdraw")
+                        .WithMany("WithdrawLogs")
+                        .HasForeignKey("WithdrawId");
                 });
 #pragma warning restore 612, 618
         }

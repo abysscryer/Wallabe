@@ -5,20 +5,17 @@ using System.Threading.Tasks;
 
 namespace Wallabe.Models
 {
-    public class ProductViewModel
+    public class PlayerViewModel
     {
         public string Id { get; set; }
 
         public string Name { get; set; }
 
-        public string CraneId { get; set; }
+        public string ImagePath { get; set; }
 
-        public string CraneName { get; set; }
-
-        public int Quantity { get; set; }
-
-        public int Price { get; set; }
+        public decimal Cash { get; set; }
 
         public DateTime OnCreated { get; set; }
+
     }
 }

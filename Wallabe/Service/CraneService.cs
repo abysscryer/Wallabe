@@ -30,7 +30,10 @@ namespace Wallabe.Service
                     Id = x.Id,
                     Name = x.Name,
                     ImagePath = x.ImagePath,
-                    Status = x.Status
+                    Status = x.Status,
+                    Title = x.Title,
+                    Description = x.Description,
+                    Icon = x.Icon
                     // performance issue
                     // Waitings = x.Games.Where(g => g.Status < Domains.PlayStatus.Over).Count()
                 })
@@ -49,6 +52,9 @@ namespace Wallabe.Service
                     Name = x.Name,
                     ImagePath = x.ImagePath,
                     Status = x.Status,
+                    Title = x.Title,
+                    Description = x.Description,
+                    Icon = x.Icon,
                     Waitings = x.Games.Where(g => g.Status < Domains.PlayStatus.Over).Count()
                 })
                 .SingleOrDefault(x => x.Id == craneId);

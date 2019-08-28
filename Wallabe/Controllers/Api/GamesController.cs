@@ -48,6 +48,11 @@ namespace Wallabe.Controllers.Api
             return _gameService.ListByCraneId(id);
         }
 
+        [HttpGet("crane/ready/{id:guid}")]
+        public IEnumerable<GameViewModel> GetReadyGamesByCraneId([FromRoute]string id)
+        {
+            return _gameService.ListReadyByCraneId(id);
+        }
 
         #region comment
 

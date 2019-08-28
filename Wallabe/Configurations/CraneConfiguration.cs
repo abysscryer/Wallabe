@@ -25,6 +25,16 @@ namespace Wallabe.Configurations
                 .IsRequired();
 
             builder
+                .Property(crane => crane.Title)
+                .HasColumnType("nvarchar(128)");
+
+            builder.Property(x => x.Description)
+                .HasColumnType("nvarchar(512)");
+
+            builder.Property(x => x.Icon)
+                .HasColumnType("nvarchar(256)");
+
+            builder
                 .Property(crane => crane.ImagePath)
                 .HasColumnType("varchar(256)");
 

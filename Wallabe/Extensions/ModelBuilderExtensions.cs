@@ -88,7 +88,7 @@ namespace Wallabe.Extensions
                     Id = "b9fe5e69-cc69-4354-b0ff-557c54392a21",
                     Name = "원피스 X1",
                     Quantity = 1,
-                    Cash = 1000,
+                    Price = 1000,
                     OnCreated = new DateTime(2019, 8, 22, 12, 1, 00, 000, DateTimeKind.Local),
                     CraneId = "42ba9d7d-62ba-4958-87a7-1bef9df38674"
                 },
@@ -97,7 +97,7 @@ namespace Wallabe.Extensions
                     Id = "d25830d7-1523-487e-86ea-bdb9ce224d59",
                     Name = "원피스 x2",
                     Quantity = 2,
-                    Cash = 2000,
+                    Price = 2000,
                     OnCreated = new DateTime(2019, 8, 22, 12, 1, 00, 000, DateTimeKind.Local),
                     CraneId = "42ba9d7d-62ba-4958-87a7-1bef9df38674"
                 },
@@ -106,7 +106,7 @@ namespace Wallabe.Extensions
                     Id = "d17babcb-ab39-4fd9-9f2e-8ae4529e92a0",
                     Name = "원피스 x3",
                     Quantity = 3,
-                    Cash = 3000,
+                    Price = 3000,
                     OnCreated = new DateTime(2019, 8, 22, 12, 3, 00, 000, DateTimeKind.Local),
                     CraneId = "42ba9d7d-62ba-4958-87a7-1bef9df38674"
                 },
@@ -115,7 +115,7 @@ namespace Wallabe.Extensions
                     Id = "b59a1e20-f31e-4d0f-a72e-489013ce7170",
                     Name = "원피스 x4",
                     Quantity = 4,
-                    Cash = 4000,
+                    Price = 4000,
                     OnCreated = new DateTime(2019, 8, 22, 12, 4, 00, 000, DateTimeKind.Local),
                     CraneId = "42ba9d7d-62ba-4958-87a7-1bef9df38674"
                 },
@@ -124,7 +124,7 @@ namespace Wallabe.Extensions
                     Id = "efdf197e-cd23-4b44-9cbe-caac4809309d",
                     Name = "원피스 x5",
                     Quantity = 5,
-                    Cash = 5000,
+                    Price = 5000,
                     OnCreated = new DateTime(2019, 8, 22, 12, 5, 00, 000, DateTimeKind.Local),
                     CraneId = "42ba9d7d-62ba-4958-87a7-1bef9df38674"
                 },
@@ -133,7 +133,7 @@ namespace Wallabe.Extensions
                     Id = "d57567b0-cb03-4410-a517-383ca9880904",
                     Name = "피카츄 x1",
                     Quantity = 1,
-                    Cash = 1000,
+                    Price = 1000,
                     OnCreated = new DateTime(2019, 8, 22, 12, 6, 00, 000, DateTimeKind.Local),
                     CraneId = "ce7ea78e-56d6-49db-bb84-4165e3c958e9"
                 },
@@ -142,7 +142,7 @@ namespace Wallabe.Extensions
                     Id = "46aeb3db-80ab-437d-9b34-4e553633461e",
                     Name = "피카츄 x2",
                     Quantity = 2,
-                    Cash = 2000,
+                    Price = 2000,
                     OnCreated = new DateTime(2019, 8, 22, 12, 7, 00, 000, DateTimeKind.Local),
                     CraneId = "ce7ea78e-56d6-49db-bb84-4165e3c958e9"
                 },
@@ -151,7 +151,7 @@ namespace Wallabe.Extensions
                     Id = "c7c8de70-b9c1-4df0-8520-340c16e1f585",
                     Name = "피카츄 x3",
                     Quantity = 3,
-                    Cash = 3000,
+                    Price = 3000,
                     OnCreated = new DateTime(2019, 8, 22, 12, 8, 00, 000, DateTimeKind.Local),
                     CraneId = "ce7ea78e-56d6-49db-bb84-4165e3c958e9"
                 },
@@ -160,7 +160,7 @@ namespace Wallabe.Extensions
                     Id = "f1afa3d7-4df8-4766-92be-e522110f7dae",
                     Name = "피카츄 x4",
                     Quantity = 4,
-                    Cash = 4000,
+                    Price = 4000,
                     OnCreated = new DateTime(2019, 8, 22, 12, 9, 00, 000, DateTimeKind.Local),
                     CraneId = "ce7ea78e-56d6-49db-bb84-4165e3c958e9"
                 },
@@ -169,7 +169,7 @@ namespace Wallabe.Extensions
                     Id = "7da6f8d6-eb6a-4466-8b1b-cb7d470d88b8",
                     Name = "피카츄 x5",
                     Quantity = 5,
-                    Cash = 5000,
+                    Price = 5000,
                     OnCreated = new DateTime(2019, 8, 22, 12, 10, 00, 000, DateTimeKind.Local),
                     CraneId = "ce7ea78e-56d6-49db-bb84-4165e3c958e9"
                 });

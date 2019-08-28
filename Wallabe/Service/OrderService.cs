@@ -33,11 +33,13 @@ namespace Wallabe.Service
             var product = await _context.Products.Where(x => x.Id == createModel.ProductId).FirstOrDefaultAsync();
             var now = DateTime.Now;
 
-            if (player.Cash >= product.Cash)
+            if (player.Cash >= product.Price)
             {
+                var beforeAmount = player.Cash;
+
                 try
                 {
-                    player.Cash = player.Cash - product.Cash;
+                    player.Cash = player.Cash - product.Price;
 
                     _context.Players.Update(player);
 
@@ -75,6 +77,20 @@ namespace Wallabe.Service
                     }
 
                     _context.Orders.Add(order);
+
+                    var transaction = new Transaction
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        BeforeAmount = beforeAmount,
+                        ApplyAmount = product.Price,
+                        AfterAmount = player.Cash,
+                        Type = TransactionType.Payment,
+                        PlayerId = player.Id,
+                        OnCreated = now,
+                        Payment = new Payment { Order = order },
+                    };
+
+                    _context.Transactions.Add(transaction);
 
                     var effected = await _context.SaveChangesAsync();
 

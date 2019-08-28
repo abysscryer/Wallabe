@@ -15,7 +15,7 @@ namespace Wallabe.Domains
 
         public int Quantity { get; set; }
 
-        public int Cash { get; set; }
+        public int Price { get; set; }
 
         public DateTime OnCreated { get; set; }
 

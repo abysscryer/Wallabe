@@ -13,6 +13,9 @@ namespace Wallabe.Data.Migrations
                 {
                     Id = table.Column<string>(type: "char(36)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(32)", nullable: false),
+                    Icon = table.Column<string>(type: "nvarchar(256)", nullable: true),
+                    Title = table.Column<string>(type: "nvarchar(128)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(512)", nullable: true),
                     Status = table.Column<int>(nullable: false),
                     ImagePath = table.Column<string>(type: "varchar(256)", nullable: true),
                     OnCreated = table.Column<DateTime>(nullable: false)
@@ -30,12 +33,30 @@ namespace Wallabe.Data.Migrations
                     Id = table.Column<string>(type: "char(36)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(32)", nullable: false),
                     ImagePath = table.Column<string>(type: "varchar(256)", nullable: true),
-                    Cash = table.Column<int>(nullable: false),
+                    Cash = table.Column<decimal>(type: "decimal(38, 18)", nullable: false),
                     OnCreated = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Players", x => x.Id)
+                        .Annotation("SqlServer:Clustered", false);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Transactions",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "char(36)", nullable: false),
+                    PlayerId = table.Column<string>(nullable: true),
+                    BeforeAmount = table.Column<decimal>(type: "decimal(38, 18)", nullable: false),
+                    ApplyAmount = table.Column<decimal>(type: "decimal(38, 18)", nullable: false),
+                    AfterAmount = table.Column<decimal>(type: "decimal(38, 18)", nullable: false),
+                    Type = table.Column<int>(nullable: false),
+                    OnCreated = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Transactions", x => x.Id)
                         .Annotation("SqlServer:Clustered", false);
                 });
 
@@ -70,7 +91,7 @@ namespace Wallabe.Data.Migrations
                     Name = table.Column<string>(nullable: true),
                     CraneId = table.Column<string>(nullable: false),
                     Quantity = table.Column<int>(nullable: false),
-                    Cash = table.Column<int>(nullable: false),
+                    Price = table.Column<int>(nullable: false),
                     OnCreated = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -139,6 +160,71 @@ namespace Wallabe.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Deposits",
+                columns: table => new
+                {
+                    TransactionId = table.Column<string>(nullable: false),
+                    Type = table.Column<int>(nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(38, 18)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Deposits", x => x.TransactionId);
+                    table.ForeignKey(
+                        name: "FK_Deposits_Transactions_TransactionId",
+                        column: x => x.TransactionId,
+                        principalTable: "Transactions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Withdraws",
+                columns: table => new
+                {
+                    TransactionId = table.Column<string>(nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(38, 18)", nullable: false),
+                    Type = table.Column<int>(nullable: false),
+                    Status = table.Column<int>(nullable: false),
+                    State = table.Column<int>(nullable: false),
+                    OnUpdated = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Withdraws", x => x.TransactionId);
+                    table.ForeignKey(
+                        name: "FK_Withdraws_Transactions_TransactionId",
+                        column: x => x.TransactionId,
+                        principalTable: "Transactions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Exchanges",
+                columns: table => new
+                {
+                    TransactionId = table.Column<string>(nullable: false),
+                    DollId = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Exchanges", x => x.TransactionId);
+                    table.ForeignKey(
+                        name: "FK_Exchanges_Dolls_DollId",
+                        column: x => x.DollId,
+                        principalTable: "Dolls",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Exchanges_Transactions_TransactionId",
+                        column: x => x.TransactionId,
+                        principalTable: "Transactions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
@@ -166,13 +252,34 @@ namespace Wallabe.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "WithdrawLog",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Status = table.Column<int>(nullable: false),
+                    State = table.Column<int>(nullable: false),
+                    OnCreated = table.Column<DateTime>(nullable: false),
+                    WithdrawId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WithdrawLog", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_WithdrawLog_Withdraws_WithdrawId",
+                        column: x => x.WithdrawId,
+                        principalTable: "Withdraws",
+                        principalColumn: "TransactionId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Games",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "char(36)", nullable: false),
-                    PlayerId = table.Column<string>(nullable: false),
-                    CraneId = table.Column<string>(nullable: false),
-                    OrderId = table.Column<string>(nullable: false),
+                    PlayerId = table.Column<string>(nullable: true),
+                    CraneId = table.Column<string>(nullable: true),
+                    OrderId = table.Column<string>(nullable: true),
                     Status = table.Column<int>(nullable: false),
                     State = table.Column<int>(nullable: false),
                     OnCreated = table.Column<DateTime>(nullable: false),
@@ -203,6 +310,30 @@ namespace Wallabe.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Payments",
+                columns: table => new
+                {
+                    TransactionId = table.Column<string>(nullable: false),
+                    OrderId = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Payments", x => x.TransactionId);
+                    table.ForeignKey(
+                        name: "FK_Payments_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Payments_Transactions_TransactionId",
+                        column: x => x.TransactionId,
+                        principalTable: "Transactions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Plays",
                 columns: table => new
                 {
@@ -226,11 +357,11 @@ namespace Wallabe.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "Cranes",
-                columns: new[] { "Id", "ImagePath", "Name", "OnCreated", "Status" },
+                columns: new[] { "Id", "Description", "Icon", "ImagePath", "Name", "OnCreated", "Status", "Title" },
                 values: new object[,]
                 {
-                    { "42ba9d7d-62ba-4958-87a7-1bef9df38674", "42ba9d7d-62ba-4958-87a7-1bef9df38674", "원피스", new DateTime(2019, 8, 22, 12, 0, 0, 0, DateTimeKind.Local), 0 },
-                    { "ce7ea78e-56d6-49db-bb84-4165e3c958e9", "ce7ea78e-56d6-49db-bb84-4165e3c958e9", "포켓몬", new DateTime(2019, 8, 22, 12, 0, 1, 0, DateTimeKind.Local), 0 }
+                    { "42ba9d7d-62ba-4958-87a7-1bef9df38674", null, null, "42ba9d7d-62ba-4958-87a7-1bef9df38674", "원피스", new DateTime(2019, 8, 22, 12, 0, 0, 0, DateTimeKind.Local), 0, null },
+                    { "ce7ea78e-56d6-49db-bb84-4165e3c958e9", null, null, "ce7ea78e-56d6-49db-bb84-4165e3c958e9", "포켓몬", new DateTime(2019, 8, 22, 12, 0, 1, 0, DateTimeKind.Local), 0, null }
                 });
 
             migrationBuilder.InsertData(
@@ -238,8 +369,8 @@ namespace Wallabe.Data.Migrations
                 columns: new[] { "Id", "Cash", "ImagePath", "Name", "OnCreated" },
                 values: new object[,]
                 {
-                    { "c09c1133-242d-43f8-9ce6-afac824b88c0", 100000000, "748960dc-70cd-4d9d-a470-3f9445d89183", "이니", new DateTime(2019, 8, 22, 12, 0, 0, 0, DateTimeKind.Local) },
-                    { "8558b62a-7e15-4083-b6d7-cd199839fd31", 100000000, "248528e4-f59e-445e-9899-6c8d465c5479", "혀니", new DateTime(2019, 8, 22, 12, 1, 0, 0, DateTimeKind.Local) }
+                    { "c09c1133-242d-43f8-9ce6-afac824b88c0", 100000000m, "748960dc-70cd-4d9d-a470-3f9445d89183", "이니", new DateTime(2019, 8, 22, 12, 0, 0, 0, DateTimeKind.Local) },
+                    { "8558b62a-7e15-4083-b6d7-cd199839fd31", 100000000m, "248528e4-f59e-445e-9899-6c8d465c5479", "혀니", new DateTime(2019, 8, 22, 12, 1, 0, 0, DateTimeKind.Local) }
                 });
 
             migrationBuilder.InsertData(
@@ -255,19 +386,19 @@ namespace Wallabe.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "Cash", "CraneId", "Name", "OnCreated", "Quantity" },
+                columns: new[] { "Id", "CraneId", "Name", "OnCreated", "Price", "Quantity" },
                 values: new object[,]
                 {
-                    { "b9fe5e69-cc69-4354-b0ff-557c54392a21", 1000, "42ba9d7d-62ba-4958-87a7-1bef9df38674", "원피스 X1", new DateTime(2019, 8, 22, 12, 1, 0, 0, DateTimeKind.Local), 1 },
-                    { "d25830d7-1523-487e-86ea-bdb9ce224d59", 2000, "42ba9d7d-62ba-4958-87a7-1bef9df38674", "원피스 x2", new DateTime(2019, 8, 22, 12, 1, 0, 0, DateTimeKind.Local), 2 },
-                    { "d17babcb-ab39-4fd9-9f2e-8ae4529e92a0", 3000, "42ba9d7d-62ba-4958-87a7-1bef9df38674", "원피스 x3", new DateTime(2019, 8, 22, 12, 3, 0, 0, DateTimeKind.Local), 3 },
-                    { "b59a1e20-f31e-4d0f-a72e-489013ce7170", 4000, "42ba9d7d-62ba-4958-87a7-1bef9df38674", "원피스 x4", new DateTime(2019, 8, 22, 12, 4, 0, 0, DateTimeKind.Local), 4 },
-                    { "efdf197e-cd23-4b44-9cbe-caac4809309d", 5000, "42ba9d7d-62ba-4958-87a7-1bef9df38674", "원피스 x5", new DateTime(2019, 8, 22, 12, 5, 0, 0, DateTimeKind.Local), 5 },
-                    { "d57567b0-cb03-4410-a517-383ca9880904", 1000, "ce7ea78e-56d6-49db-bb84-4165e3c958e9", "피카츄 x1", new DateTime(2019, 8, 22, 12, 6, 0, 0, DateTimeKind.Local), 1 },
-                    { "46aeb3db-80ab-437d-9b34-4e553633461e", 2000, "ce7ea78e-56d6-49db-bb84-4165e3c958e9", "피카츄 x2", new DateTime(2019, 8, 22, 12, 7, 0, 0, DateTimeKind.Local), 2 },
-                    { "c7c8de70-b9c1-4df0-8520-340c16e1f585", 3000, "ce7ea78e-56d6-49db-bb84-4165e3c958e9", "피카츄 x3", new DateTime(2019, 8, 22, 12, 8, 0, 0, DateTimeKind.Local), 3 },
-                    { "f1afa3d7-4df8-4766-92be-e522110f7dae", 4000, "ce7ea78e-56d6-49db-bb84-4165e3c958e9", "피카츄 x4", new DateTime(2019, 8, 22, 12, 9, 0, 0, DateTimeKind.Local), 4 },
-                    { "7da6f8d6-eb6a-4466-8b1b-cb7d470d88b8", 5000, "ce7ea78e-56d6-49db-bb84-4165e3c958e9", "피카츄 x5", new DateTime(2019, 8, 22, 12, 10, 0, 0, DateTimeKind.Local), 5 }
+                    { "b9fe5e69-cc69-4354-b0ff-557c54392a21", "42ba9d7d-62ba-4958-87a7-1bef9df38674", "원피스 X1", new DateTime(2019, 8, 22, 12, 1, 0, 0, DateTimeKind.Local), 1000, 1 },
+                    { "d25830d7-1523-487e-86ea-bdb9ce224d59", "42ba9d7d-62ba-4958-87a7-1bef9df38674", "원피스 x2", new DateTime(2019, 8, 22, 12, 1, 0, 0, DateTimeKind.Local), 2000, 2 },
+                    { "d17babcb-ab39-4fd9-9f2e-8ae4529e92a0", "42ba9d7d-62ba-4958-87a7-1bef9df38674", "원피스 x3", new DateTime(2019, 8, 22, 12, 3, 0, 0, DateTimeKind.Local), 3000, 3 },
+                    { "b59a1e20-f31e-4d0f-a72e-489013ce7170", "42ba9d7d-62ba-4958-87a7-1bef9df38674", "원피스 x4", new DateTime(2019, 8, 22, 12, 4, 0, 0, DateTimeKind.Local), 4000, 4 },
+                    { "efdf197e-cd23-4b44-9cbe-caac4809309d", "42ba9d7d-62ba-4958-87a7-1bef9df38674", "원피스 x5", new DateTime(2019, 8, 22, 12, 5, 0, 0, DateTimeKind.Local), 5000, 5 },
+                    { "d57567b0-cb03-4410-a517-383ca9880904", "ce7ea78e-56d6-49db-bb84-4165e3c958e9", "피카츄 x1", new DateTime(2019, 8, 22, 12, 6, 0, 0, DateTimeKind.Local), 1000, 1 },
+                    { "46aeb3db-80ab-437d-9b34-4e553633461e", "ce7ea78e-56d6-49db-bb84-4165e3c958e9", "피카츄 x2", new DateTime(2019, 8, 22, 12, 7, 0, 0, DateTimeKind.Local), 2000, 2 },
+                    { "c7c8de70-b9c1-4df0-8520-340c16e1f585", "ce7ea78e-56d6-49db-bb84-4165e3c958e9", "피카츄 x3", new DateTime(2019, 8, 22, 12, 8, 0, 0, DateTimeKind.Local), 3000, 3 },
+                    { "f1afa3d7-4df8-4766-92be-e522110f7dae", "ce7ea78e-56d6-49db-bb84-4165e3c958e9", "피카츄 x4", new DateTime(2019, 8, 22, 12, 9, 0, 0, DateTimeKind.Local), 4000, 4 },
+                    { "7da6f8d6-eb6a-4466-8b1b-cb7d470d88b8", "ce7ea78e-56d6-49db-bb84-4165e3c958e9", "피카츄 x5", new DateTime(2019, 8, 22, 12, 10, 0, 0, DateTimeKind.Local), 5000, 5 }
                 });
 
             migrationBuilder.InsertData(
@@ -343,6 +474,11 @@ namespace Wallabe.Data.Migrations
                 .Annotation("SqlServer:Clustered", true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Exchanges_DollId",
+                table: "Exchanges",
+                column: "DollId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Games_CraneId",
                 table: "Games",
                 column: "CraneId");
@@ -380,6 +516,12 @@ namespace Wallabe.Data.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Payments_OrderId",
+                table: "Payments",
+                column: "OrderId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Players_Name",
                 table: "Players",
                 column: "Name",
@@ -412,6 +554,17 @@ namespace Wallabe.Data.Migrations
                 name: "IX_Records_PlayerId",
                 table: "Records",
                 column: "PlayerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transactions_OnCreated",
+                table: "Transactions",
+                column: "OnCreated")
+                .Annotation("SqlServer:Clustered", true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WithdrawLog_WithdrawId",
+                table: "WithdrawLog",
+                column: "WithdrawId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -420,7 +573,13 @@ namespace Wallabe.Data.Migrations
                 name: "CraneRecords");
 
             migrationBuilder.DropTable(
-                name: "Dolls");
+                name: "Deposits");
+
+            migrationBuilder.DropTable(
+                name: "Exchanges");
+
+            migrationBuilder.DropTable(
+                name: "Payments");
 
             migrationBuilder.DropTable(
                 name: "Plays");
@@ -429,10 +588,22 @@ namespace Wallabe.Data.Migrations
                 name: "Records");
 
             migrationBuilder.DropTable(
+                name: "WithdrawLog");
+
+            migrationBuilder.DropTable(
+                name: "Dolls");
+
+            migrationBuilder.DropTable(
                 name: "Games");
 
             migrationBuilder.DropTable(
+                name: "Withdraws");
+
+            migrationBuilder.DropTable(
                 name: "Orders");
+
+            migrationBuilder.DropTable(
+                name: "Transactions");
 
             migrationBuilder.DropTable(
                 name: "Players");
